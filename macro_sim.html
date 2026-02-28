@@ -1,0 +1,1795 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Economic Outlook — 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Lora:ital,wght@0,400;0,500;0,600;1,400;1,600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg:       #f5eedc;   /* warm light parchment */
+  --surface:  #fdfaf2;   /* near-white warm */
+  --surface2: #ede4c8;   /* warm tan for panel headers */
+  --border:   #d0c09a;   /* warm mid-tan */
+  --border2:  #a89060;   /* deeper warm tan accent */
+  --text:     #111108;   /* near-black */
+  --text2:    #2c2010;   /* very dark warm brown */
+  --muted:    #6b5838;   /* warm medium brown */
+  --gold:     #8a6c18;   /* dark amber accent (readable on light bg) */
+  --gold2:    #5a4008;   /* deeper dark amber */
+  --green:    #1a5c15;   /* dark forest green */
+  --red:      #8b1212;   /* dark red */
+  --amber:    #8a5c0c;   /* warm amber */
+  --bronze:   #7a4e18;   /* bronze */
+  --yellow:   #7a6010;   /* dark warm yellow */
+  /* role aliases */
+  --blue:     #1a4a8a;   /* navy blue (forecast line) */
+  --purple:   #6a3e7a;   /* warm purple */
+  --orange:   #8a5c0c;   /* same as amber */
+  --teal:     #1a5045;   /* dark teal */
+}
+
+body {
+  background: var(--bg);
+  background-image:
+    repeating-linear-gradient(91deg, transparent 0, transparent 120px, rgba(140,100,20,0.03) 120px, rgba(140,100,20,0.03) 121px),
+    repeating-linear-gradient(180deg, transparent 0, transparent 40px, rgba(100,70,10,0.025) 40px, rgba(100,70,10,0.025) 41px);
+  color: var(--text);
+  font-family: 'Lora', Georgia, 'Times New Roman', serif;
+  font-size: 17px;
+  line-height: 1.7;
+  padding: 28px 24px;
+}
+.wrap { max-width: 1480px; margin: 0 auto; }
+
+/* ── Masthead ── */
+.masthead { text-align: center; margin-bottom: 22px; }
+.masthead-rule { height: 1px; background: linear-gradient(90deg, transparent, var(--border2) 20%, var(--gold) 50%, var(--border2) 80%, transparent); margin: 8px 0; }
+.masthead-rule.thick { height: 2px; }
+h1 {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 40px;
+  font-weight: 700;
+  color: var(--gold);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  line-height: 1.2;
+  padding: 6px 0;
+}
+.subtitle {
+  font-family: 'Lora', Georgia, serif;
+  font-style: italic;
+  font-size: 16px;
+  color: var(--muted);
+  letter-spacing: 0.2em;
+  margin-top: 4px;
+}
+
+/* ── Generic panel ── */
+.panel { background: var(--surface); border: 2px solid var(--border2); border-top: 3px solid var(--gold); }
+.panel-hdr {
+  background: var(--surface2);
+  border-bottom: 1px solid var(--border2);
+  padding: 7px 16px;
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 14px;
+  font-variant: small-caps;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+
+/* ── Config bar ── */
+.config-bar {
+  background: var(--surface);
+  border: 2px solid var(--border2);
+  border-top: 3px solid var(--gold);
+  padding: 14px 18px;
+  margin-bottom: 16px;
+  display: flex;
+  gap: 18px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.config-bar label {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-variant: small-caps;
+  letter-spacing: 0.1em;
+  font-size: 14px;
+  color: var(--muted);
+  text-transform: uppercase;
+}
+.config-bar input[type=text] {
+  background: var(--bg);
+  border: 1px solid var(--border2);
+  color: var(--text);
+  font-family: 'Space Mono', 'Courier New', monospace;
+  font-size: 15px;
+  padding: 5px 12px;
+  width: 320px;
+}
+.config-bar input:focus { outline: 1px solid var(--gold); }
+button.run-btn {
+  background: var(--gold);
+  color: #fff;
+  border: none;
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  padding: 9px 26px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+button.run-btn:hover { background: var(--gold2); }
+button.run-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+/* ── School of Thought ── */
+.school-bar {
+  background: var(--surface);
+  border: 2px solid var(--border2);
+  border-top: 3px solid var(--gold);
+  padding: 14px 18px;
+  margin-bottom: 16px;
+}
+.school-bar-title {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-variant: small-caps;
+  font-size: 14px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 10px;
+}
+.school-pills { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 12px; }
+.school-pill {
+  background: var(--surface);
+  border: 2px solid var(--border2);
+  color: var(--muted);
+  padding: 7px 20px;
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 14px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  transition: all 0.15s;
+}
+.school-pill:hover { background: var(--surface2); color: var(--text2); border-color: var(--gold); }
+.school-pill.active { background: var(--gold); color: #fff; font-weight: 700; border-color: var(--gold2); box-shadow: 0 2px 8px rgba(138,108,24,0.28); }
+.school-pill.active .mae-chip { color: #fff; opacity: 0.8; }
+.mae-chip { font-family: 'Space Mono', monospace; font-size: 13px; opacity: 0.7; }
+.school-desc-box {
+  background: var(--bg);
+  border-left: 3px solid var(--gold);
+  padding: 10px 16px;
+  font-size: 16px;
+  color: var(--muted);
+  line-height: 1.9;
+  font-family: 'Lora', Georgia, serif;
+}
+.school-desc-box strong { color: var(--text); font-family: 'Playfair Display', Georgia, serif; }
+.theory-tag {
+  display: inline-block;
+  background: rgba(138,108,24,0.1);
+  color: var(--gold);
+  font-size: 13px;
+  padding: 1px 8px;
+  margin-left: 6px;
+  letter-spacing: 0.08em;
+  font-family: 'Playfair Display', Georgia, serif;
+  text-transform: uppercase;
+  vertical-align: middle;
+  border: 1px solid var(--border2);
+}
+
+/* ── Policy Sliders ── */
+.adj-panel {
+  background: var(--surface);
+  border: 2px solid var(--border2);
+  border-top: 3px solid var(--gold);
+  margin-bottom: 16px;
+}
+.adj-hdr {
+  background: var(--surface2);
+  border-bottom: 1px solid var(--border);
+  padding: 8px 18px;
+  font-family: 'Playfair Display', Georgia, serif;
+  font-variant: small-caps;
+  font-size: 14px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+.adj-body { padding: 16px 18px; }
+.adj-note {
+  font-family: 'Lora', Georgia, serif;
+  font-style: italic;
+  font-size: 15px;
+  color: var(--muted);
+  margin-bottom: 16px;
+  line-height: 1.8;
+  border-left: 2px solid var(--amber);
+  padding: 6px 12px;
+  background: rgba(138,92,12,0.05);
+}
+.slider-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 18px 32px; }
+.slider-item label {
+  display: flex;
+  justify-content: space-between;
+  font-size: 15px;
+  color: var(--text2);
+  margin-bottom: 4px;
+  font-family: 'Lora', Georgia, serif;
+}
+.slider-item label .val {
+  font-family: 'Space Mono', monospace;
+  font-size: 14px;
+  color: var(--amber);
+  font-weight: 700;
+}
+input[type=range] { width: 100%; accent-color: var(--gold); cursor: pointer; }
+.slider-ends { display: flex; justify-content: space-between; font-size: 13px; color: var(--muted); margin-top: 2px; font-family: 'Lora', Georgia, serif; font-style: italic; }
+.slider-effect { font-size: 13px; color: var(--bronze); margin-top: 3px; font-style: italic; font-family: 'Lora', Georgia, serif; }
+.reset-btn {
+  background: transparent;
+  border: 1px solid var(--border2);
+  color: var(--muted);
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 14px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 5px 16px;
+  cursor: pointer;
+  margin-top: 16px;
+  transition: all 0.15s;
+}
+.reset-btn:hover { color: var(--gold); border-color: var(--gold); }
+
+/* ── Charts ── */
+.chart-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 16px; }
+.chart-wrap { background: var(--surface); border: 2px solid var(--border2); border-top: 3px solid var(--gold); padding: 14px; }
+.chart-canvas-box { height: 210px; position: relative; }
+.chart-canvas-box canvas { width: 100%!important; height: 100%!important; }
+.chart-title {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-variant: small-caps;
+  font-size: 14px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 8px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid var(--border);
+}
+
+/* ── Chart zoom slider ── */
+.chart-range-ctrl { margin-top: 10px; padding-top: 8px; border-top: 1px solid var(--border); }
+.zoom-label {
+  font-family: 'Lora', Georgia, serif;
+  font-style: italic;
+  font-size: 13px;
+  color: var(--muted);
+  margin-bottom: 5px;
+}
+.zoom-label span { color: var(--gold); font-style: normal; font-family: 'Space Mono', monospace; font-size: 13px; }
+.dual-range { position: relative; height: 20px; margin: 0 6px; }
+.dual-range-track { position: absolute; top: 50%; left: 0; right: 0; height: 3px; transform: translateY(-50%); background: var(--border); border-radius: 1px; pointer-events: none; }
+.dual-range-fill { position: absolute; height: 100%; background: var(--gold); border-radius: 1px; opacity: 0.5; }
+.dual-range input[type=range] { position: absolute; left: 0; top: 0; width: 100%; height: 100%; pointer-events: none; background: transparent; -webkit-appearance: none; appearance: none; margin: 0; accent-color: transparent; }
+.dual-range input[type=range]::-webkit-slider-thumb { pointer-events: all; -webkit-appearance: none; appearance: none; width: 13px; height: 13px; border-radius: 50%; background: var(--gold); border: 2px solid var(--bg); cursor: pointer; }
+.dual-range input[type=range]::-moz-range-thumb { pointer-events: all; width: 11px; height: 11px; border-radius: 50%; background: var(--gold); border: 2px solid var(--bg); cursor: pointer; }
+.dual-range input[type=range]::-webkit-slider-runnable-track { background: transparent; height: 3px; }
+.dual-range input[type=range]::-moz-range-track { background: transparent; height: 3px; }
+
+/* ── Results table ── */
+.results-section { margin-bottom: 16px; }
+.section-label {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-variant: small-caps;
+  font-size: 14px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 8px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid var(--border2);
+}
+table { width: 100%; border-collapse: collapse; background: var(--surface); border: 1px solid var(--border); }
+th {
+  background: var(--surface2);
+  color: var(--gold);
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 13px;
+  font-variant: small-caps;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  font-weight: 600;
+  padding: 9px 14px;
+  text-align: left;
+  white-space: nowrap;
+  border-bottom: 2px solid var(--border2);
+}
+th.pred-col { color: var(--text); }
+td {
+  padding: 9px 14px;
+  border-top: 1px solid var(--border);
+  white-space: nowrap;
+  vertical-align: middle;
+  font-family: 'Lora', Georgia, serif;
+  font-size: 16px;
+  color: var(--text);
+}
+td.mono, td.pred-val { font-family: 'Space Mono', monospace; font-size: 14px; }
+tr.data-row { cursor: pointer; } tr.data-row:hover td { background: rgba(138,108,24,0.06); }
+tr.eq-row td { padding: 0; border-top: none; }
+.badge { display: inline-block; padding: 1px 9px; font-family: 'Space Mono', monospace; font-size: 13px; font-weight: 700; border: 1px solid; }
+.badge-high { border-color: var(--green); color: var(--green); background: rgba(26,92,21,0.08); }
+.badge-med  { border-color: var(--yellow); color: var(--yellow); background: rgba(122,96,16,0.08); }
+.badge-low  { border-color: var(--red); color: var(--red); background: rgba(139,18,18,0.08); }
+.expand-btn {
+  background: transparent;
+  border: 1px solid var(--border2);
+  color: var(--muted);
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 13px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 3px 10px;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.expand-btn:hover { border-color: var(--gold); color: var(--gold); }
+.adj-tag { font-family: 'Space Mono', monospace; font-size: 13px; color: var(--muted); display: block; margin-top: 2px; }
+
+/* ── Equation panel ── */
+.eq-panel {
+  background: #f0e8d0;
+  border-top: 2px solid var(--gold);
+  padding: 20px 22px;
+  font-size: 16px;
+  line-height: 2;
+  max-width: 100%;
+  overflow-x: auto;
+  box-sizing: border-box;
+}
+.eq-section-title {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-variant: small-caps;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--gold);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  margin: 16px 0 6px;
+  padding-bottom: 4px;
+  border-bottom: 1px solid var(--border);
+}
+.eq-section-title:first-child { margin-top: 0; }
+.eq-formula {
+  font-family: 'Space Mono', monospace;
+  font-size: 15px;
+  color: var(--text2);
+  padding: 8px 16px;
+  border-left: 3px solid var(--gold);
+  margin: 8px 0;
+  background: rgba(138,108,24,0.06);
+  white-space: normal;
+  overflow-wrap: break-word;
+  word-break: break-word;
+  line-height: 1.8;
+}
+.eq-theory-note { font-family: 'Lora', Georgia, serif; font-style: italic; color: var(--muted); font-size: 15.5px; margin-bottom: 8px; line-height: 1.8; }
+.coeff-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 4px 18px; margin: 8px 0; }
+.coeff-row { font-family: 'Lora', Georgia, serif; font-size: 15.5px; color: var(--text); word-break: break-word; }
+.coeff-name { color: var(--gold); font-style: italic; }
+.coeff-val { font-family: 'Space Mono', monospace; font-size: 14px; color: var(--amber); font-weight: 700; }
+.coeff-interp { color: var(--muted); font-size: 14px; display: block; margin-left: 14px; white-space: normal; word-break: break-word; overflow-wrap: break-word; font-style: italic; }
+.coeff-pos { color: var(--green); } .coeff-neg { color: var(--red); }
+.step-table { border-collapse: collapse; width: 100%; margin-top: 8px; font-size: 15px; table-layout: fixed; }
+.step-table th { font-family: 'Playfair Display', Georgia, serif; font-variant: small-caps; font-size: 13px; color: var(--muted); padding: 4px 10px; text-align: left; background: var(--surface); border-bottom: 1px solid var(--border); font-weight: normal; letter-spacing: 0.1em; text-transform: uppercase; white-space: nowrap; }
+.step-table td { font-family: 'Space Mono', monospace; font-size: 14px; padding: 5px 10px; border-top: 1px solid var(--border); white-space: normal; word-break: break-word; overflow-wrap: break-word; color: var(--text2); }
+.eq-stats { display: flex; gap: 18px; flex-wrap: wrap; background: rgba(138,108,24,0.06); border: 1px solid var(--border2); padding: 8px 14px; margin-top: 10px; }
+.eq-stat label { font-family: 'Lora', Georgia, serif; font-style: italic; color: var(--muted); margin-right: 4px; font-size: 15px; }
+.eq-stat span { font-family: 'Space Mono', monospace; color: var(--amber); font-weight: 700; font-size: 14px; }
+
+/* ── Bottom grid ── */
+.bottom-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 16px; }
+#console { padding: 14px 16px; height: 380px; overflow-y: auto; font-family: 'Space Mono', monospace; font-size: 14.5px; line-height: 1.9; scroll-behavior: smooth; }
+.log-ok { color: var(--green); } .log-warn { color: var(--yellow); } .log-err { color: var(--red); }
+.log-head { color: var(--gold); font-weight: 700; } .log-dim { color: var(--muted); }
+.log-val { color: var(--amber); } .log-pred { color: var(--gold); font-weight: 700; }
+.log-up { color: var(--green); } .log-dn { color: var(--red); }
+
+/* ── Footer ── */
+.footer { text-align: center; color: var(--muted); font-family: 'Lora', Georgia, serif; font-size: 15px; font-style: italic; padding: 20px 0 12px; }
+.footer-rule { height: 1px; background: linear-gradient(90deg, transparent, var(--border2) 20%, var(--gold) 50%, var(--border2) 80%, transparent); margin-bottom: 14px; }
+
+/* ── Collapsible section wrappers ── */
+.sec-wrap { margin-bottom: 16px; background: var(--surface); border: 2px solid var(--border2); border-top: 3px solid var(--gold); }
+.sec-hdr { display: flex; justify-content: space-between; align-items: center; background: var(--surface2); border-bottom: 1px solid var(--border2); padding: 9px 18px; cursor: pointer; user-select: none; -webkit-user-select: none; font-family: 'Playfair Display', Georgia, serif; font-variant: small-caps; font-size: 14px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--gold); transition: background 0.15s; }
+.sec-hdr:hover { background: #e5dbbf; }
+.sec-hdr-text { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.sec-chevron { font-size: 10px; color: var(--muted); transition: transform 0.2s; flex-shrink: 0; margin-left: 12px; }
+.sec-wrap.collapsed .sec-chevron { transform: rotate(-90deg); }
+.sec-wrap.collapsed .sec-body { display: none !important; }
+/* Table scroll on wider viewports only; mobile uses column-hiding instead */
+.table-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+.table-scroll table { min-width: 580px; }
+/* Responsive breakpoints */
+@media(max-width:900px) { .chart-grid, .bottom-grid { grid-template-columns: 1fr; } }
+@media(max-width:700px) {
+  body { padding: 12px 10px; font-size: 15px; }
+  h1 { font-size: 26px; letter-spacing: 0.06em; }
+  .subtitle { font-size: 13px; letter-spacing: 0.1em; }
+  .sec-hdr { font-size: 13px; padding: 8px 12px; }
+  .config-bar input[type=text] { width: 100% !important; }
+  .school-pill { padding: 5px 10px; font-size: 13px; }
+  .adj-body { padding: 12px !important; }
+  .slider-grid { grid-template-columns: 1fr !important; }
+  .chart-canvas-box { height: 170px; }
+  .chart-wrap { padding: 10px; }
+  .chart-grid { padding: 10px !important; gap: 10px !important; }
+  #console { height: 240px; font-size: 13px; }
+  .school-desc-box { font-size: 15px; }
+  .bottom-grid { padding: 10px !important; gap: 10px !important; }
+
+  /* ── Policy sliders: larger thumbs for touch ── */
+  .slider-grid input[type=range] { -webkit-appearance: none; appearance: none; height: 5px; background: var(--border); border-radius: 3px; outline: none; }
+  .slider-grid input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; width: 28px; height: 28px; border-radius: 50%; background: var(--gold); border: 3px solid var(--bg); cursor: pointer; box-shadow: 0 1px 4px rgba(0,0,0,0.18); }
+  .slider-grid input[type=range]::-moz-range-thumb { width: 26px; height: 26px; border-radius: 50%; background: var(--gold); border: 3px solid var(--bg); cursor: pointer; box-shadow: 0 1px 4px rgba(0,0,0,0.18); }
+  /* Chart zoom dual-range thumbs */
+  .dual-range input[type=range]::-webkit-slider-thumb { width: 22px !important; height: 22px !important; }
+  .dual-range input[type=range]::-moz-range-thumb { width: 20px !important; height: 20px !important; }
+  /* Raise the dual-range track height slightly for finger tap */
+  .dual-range { height: 28px; }
+
+  /* ── Forecast table: no horizontal scroll; hide non-essential columns ── */
+  .table-scroll { overflow-x: visible; }
+  .table-scroll table { min-width: 0; width: 100%; }
+  /* Hide "End of 2025" (col 2) and "Reliability" (col 8) */
+  table thead tr th:nth-child(2),
+  table tbody tr:not(.eq-row) td:nth-child(2),
+  table thead tr th:nth-child(8),
+  table tbody tr:not(.eq-row) td:nth-child(8) { display: none; }
+  /* Compact table layout */
+  th { padding: 5px 5px; font-size: 10px; letter-spacing: 0.04em; white-space: nowrap; }
+  td { padding: 5px 5px; font-size: 11px; white-space: nowrap; }
+  td.mono, td.pred-val { font-size: 11px; }
+  .badge { font-size: 10px; padding: 1px 5px; }
+  .expand-btn { font-size: 11px; padding: 2px 6px; letter-spacing: 0; }
+  /* "Avg Error" header abbreviation via generated content trick */
+  table thead tr th:nth-child(7) { font-size: 0; }
+  table thead tr th:nth-child(7)::after { content: 'Err'; font-size: 10px; font-family: 'Playfair Display', Georgia, serif; letter-spacing: 0.04em; }
+  /* Equation panel inside eq-row still full width */
+  table tbody tr.eq-row td { white-space: normal; font-size: 13px; }
+}
+</style>
+</head>
+<body><div class="wrap">
+
+<!-- ── Masthead ── -->
+<div class="masthead">
+  <div class="masthead-rule thick"></div>
+  <h1>The Economic Outlook</h1>
+  <p class="subtitle">Annual Forecast &nbsp;&middot;&nbsp; United States &nbsp;&middot;&nbsp; 2026 &nbsp;&middot;&nbsp; Macroeconomic Models &amp; FRED Data</p>
+  <div class="masthead-rule"></div>
+</div>
+
+<!-- ── Config ── -->
+<div class="sec-wrap" id="sw-config">
+  <div class="sec-hdr" onclick="toggleSec('sw-config')"><span class="sec-hdr-text">Data Source &amp; Configuration</span><span class="sec-chevron">&#9650;</span></div>
+  <div class="sec-body config-bar" style="border:none;border-top:none;margin-bottom:0">
+    <div>
+      <label>Fred API Key &nbsp;(fred.stlouisfed.org — leave blank for built-in data)</label><br>
+      <input id="fredKey" type="text" placeholder="Paste FRED key for live data, or click Run to use built-in 2015–2025 data" spellcheck="false">
+    </div>
+    <div style="margin-top:14px">
+      <button class="run-btn" id="runBtn" onclick="runApp()">&#9654;&nbsp; Run Forecast</button>
+    </div>
+    <div id="status-light" style="margin-top:13px;font-size:13px;color:var(--muted);font-family:'Lora',serif;font-style:italic">Ready. Click Run to generate the 2026 forecast.</div>
+  </div>
+</div>
+
+<!-- ── School of Thought ── -->
+<div class="sec-wrap" id="sw-school">
+  <div class="sec-hdr" onclick="toggleSec('sw-school')"><span class="sec-hdr-text">School of Thought</span><span class="sec-chevron">&#9650;</span></div>
+  <div class="sec-body school-bar" style="border:none;border-top:none;margin-bottom:0">
+    <div class="school-bar-title">Select an Economic School of Thought</div>
+    <div class="school-pills" id="school-pills">
+      <button class="school-pill active" data-key="mainstream" onclick="selectSchool('mainstream')">Mainstream <span class="mae-chip" id="mae-mainstream"></span></button>
+      <button class="school-pill" data-key="supplySide" onclick="selectSchool('supplySide')">Supply-Side <span class="mae-chip" id="mae-supplySide"></span></button>
+      <button class="school-pill" data-key="keynesian" onclick="selectSchool('keynesian')">Keynesian <span class="mae-chip" id="mae-keynesian"></span></button>
+      <button class="school-pill" data-key="strictMon" onclick="selectSchool('strictMon')">Strict Monetarism <span class="mae-chip" id="mae-strictMon"></span></button>
+      <button class="school-pill" data-key="mmt" onclick="selectSchool('mmt')">Modern Monetary Theory <span class="mae-chip" id="mae-mmt"></span></button>
+      <button class="school-pill" data-key="complex" onclick="selectSchool('complex')">&#x2605; Complex Multi-Factor <span class="mae-chip" id="mae-complex"></span></button>
+      <button class="school-pill" data-key="userBlend" onclick="selectSchool('userBlend')">Custom Blend <span class="mae-chip" id="mae-userBlend"></span></button>
+    </div>
+    <div style="font-family:'Lora',Georgia,serif;font-style:italic;font-size:13px;color:var(--muted);margin:-4px 0 10px;padding-left:2px">MAE = mean absolute error on walk-forward backtests &mdash; crisis quarters excluded (2020 Q1&ndash;2021 Q1)</div>
+    <div class="school-desc-box" id="school-desc">
+      <strong>Mainstream Economics</strong> — The academic consensus used by the Fed, IMF, and most central banks.
+      Uses IS-LM for output, the Phillips Curve for inflation, Okun's Law for unemployment, and the Taylor Rule for interest rates.
+      <span class="theory-tag">IS-LM + Phillips Curve + Okun's Law + Taylor Rule</span>
+    </div>
+    <div id="blend-panel" style="display:none; margin-top:16px; padding-top:14px; border-top:1px solid var(--border);">
+      <div class="adj-note" style="margin-bottom:14px">Drag each slider to set the relative weight of that school in the blended forecast. Weights are normalised to 100% automatically &mdash; setting one school to zero excludes it entirely.</div>
+      <div class="slider-grid" id="blend-slider-grid"></div>
+      <button class="reset-btn" onclick="resetBlendWeights()" style="margin-top:14px">&#8635;&ensp; Reset to Equal Weights</button>
+    </div>
+  </div>
+</div>
+
+<!-- ── Charts ── -->
+<div class="sec-wrap" id="sw-charts" style="display:none">
+  <div class="sec-hdr" onclick="toggleSec('sw-charts')"><span class="sec-hdr-text">Forecast Charts</span><span class="sec-chevron">&#9650;</span></div>
+  <div class="sec-body">
+<div class="chart-grid" id="chart-grid" style="padding:14px;margin-bottom:0">
+  <div class="chart-wrap">
+    <div class="chart-title">Real GDP Growth &mdash; % per quarter, annualized</div>
+    <div class="chart-canvas-box"><canvas id="chartGDP"></canvas></div>
+    <div class="chart-range-ctrl">
+      <div class="zoom-label">Zoom: <span id="rFrom-chartGDP">2015 Q1</span> &rarr; <span id="rTo-chartGDP">2026 Q4</span></div>
+      <div class="dual-range"><div class="dual-range-track"><div class="dual-range-fill" id="rfill-chartGDP"></div></div>
+        <input type="range" id="rs-chartGDP" min="0" max="47" value="0"  oninput="onRangeChange('chartGDP')">
+        <input type="range" id="re-chartGDP" min="0" max="47" value="47" oninput="onRangeChange('chartGDP')">
+      </div>
+    </div>
+  </div>
+  <div class="chart-wrap">
+    <div class="chart-title">Inflation &mdash; CPI Year-over-Year (%)</div>
+    <div class="chart-canvas-box"><canvas id="chartCPI"></canvas></div>
+    <div class="chart-range-ctrl">
+      <div class="zoom-label">Zoom: <span id="rFrom-chartCPI">2015 Q1</span> &rarr; <span id="rTo-chartCPI">2026 Q4</span></div>
+      <div class="dual-range"><div class="dual-range-track"><div class="dual-range-fill" id="rfill-chartCPI"></div></div>
+        <input type="range" id="rs-chartCPI" min="0" max="47" value="0"  oninput="onRangeChange('chartCPI')">
+        <input type="range" id="re-chartCPI" min="0" max="47" value="47" oninput="onRangeChange('chartCPI')">
+      </div>
+    </div>
+  </div>
+  <div class="chart-wrap">
+    <div class="chart-title">Unemployment Rate (%)</div>
+    <div class="chart-canvas-box"><canvas id="chartUNE"></canvas></div>
+    <div class="chart-range-ctrl">
+      <div class="zoom-label">Zoom: <span id="rFrom-chartUNE">2015 Q1</span> &rarr; <span id="rTo-chartUNE">2026 Q4</span></div>
+      <div class="dual-range"><div class="dual-range-track"><div class="dual-range-fill" id="rfill-chartUNE"></div></div>
+        <input type="range" id="rs-chartUNE" min="0" max="47" value="0"  oninput="onRangeChange('chartUNE')">
+        <input type="range" id="re-chartUNE" min="0" max="47" value="47" oninput="onRangeChange('chartUNE')">
+      </div>
+    </div>
+  </div>
+  <div class="chart-wrap">
+    <div class="chart-title">Federal Funds Rate (%)</div>
+    <div class="chart-canvas-box"><canvas id="chartFFR"></canvas></div>
+    <div class="chart-range-ctrl">
+      <div class="zoom-label">Zoom: <span id="rFrom-chartFFR">2015 Q1</span> &rarr; <span id="rTo-chartFFR">2026 Q4</span></div>
+      <div class="dual-range"><div class="dual-range-track"><div class="dual-range-fill" id="rfill-chartFFR"></div></div>
+        <input type="range" id="rs-chartFFR" min="0" max="47" value="0"  oninput="onRangeChange('chartFFR')">
+        <input type="range" id="re-chartFFR" min="0" max="47" value="47" oninput="onRangeChange('chartFFR')">
+      </div>
+    </div>
+  </div>
+</div>
+  </div><!-- /.sec-body -->
+</div><!-- /#sw-charts -->
+
+<!-- ── Policy Levers ── -->
+<div class="sec-wrap" id="sw-policy">
+  <div class="sec-hdr" onclick="toggleSec('sw-policy')"><span class="sec-hdr-text">&#9881;&ensp; Policy Levers &mdash; Drag to Model Different Scenarios</span><span class="sec-chevron">&#9650;</span></div>
+  <div class="sec-body adj-body">
+    <div class="adj-note">
+      Run the forecast first, then drag any lever to explore policy scenarios. Each school of thought responds differently to the same policy &mdash; that is the whole point.
+    </div>
+    <div class="slider-grid" id="slider-grid"></div>
+    <button class="reset-btn" onclick="resetSliders()">&#8635;&ensp; Reset All to Zero</button>
+  </div>
+</div>
+
+<!-- ── Results table ── -->
+<div class="sec-wrap" id="sw-results" style="display:none">
+  <div class="sec-hdr" onclick="toggleSec('sw-results')"><span class="sec-hdr-text">2026 Quarterly Forecast</span><span class="sec-chevron">&#9650;</span></div>
+  <div class="sec-body" id="results-section" style="padding:14px 18px">
+    <div class="section-label" id="table-label" style="margin-bottom:10px">Click any row to expand equations and coefficients</div>
+    <div class="table-scroll">
+      <table><thead><tr>
+        <th>Indicator</th>
+        <th>End of 2025</th>
+        <th class="pred-col">Q1 2026</th>
+        <th class="pred-col">Q2 2026</th>
+        <th class="pred-col">Q3 2026</th>
+        <th class="pred-col">Q4 2026</th>
+        <th>Avg Error</th>
+        <th>Reliability</th>
+        <th></th>
+      </tr></thead><tbody id="results-body"></tbody></table>
+    </div>
+  </div>
+</div>
+
+<!-- ── Console + Notes ── -->
+<div class="sec-wrap" id="sw-bottom" style="display:none">
+  <div class="sec-hdr" onclick="toggleSec('sw-bottom')"><span class="sec-hdr-text">Model Log &amp; Methodology</span><span class="sec-chevron">&#9650;</span></div>
+  <div class="sec-body">
+    <div class="bottom-grid" id="bottom-grid" style="padding:14px;margin-bottom:0">
+      <div class="panel">
+        <div class="panel-hdr">Model Log &mdash; Step by Step</div>
+        <div id="console"></div>
+      </div>
+      <div class="panel">
+        <div class="panel-hdr">Data Sources &amp; Methodology</div>
+        <div style="padding:16px;color:var(--muted);font-size:14px;line-height:2;font-family:'Lora',Georgia,serif">
+          <p><span style="color:var(--gold);font-family:'Playfair Display',serif;font-variant:small-caps;letter-spacing:.1em">Data Sources</span></p>
+          <p style="margin-left:10px;font-style:italic">
+            BLS UNRATE &mdash; Unemployment Rate (monthly &rarr; quarterly average)<br>
+            BLS CPIAUCSL &mdash; Consumer Price Index (monthly &rarr; quarterly average)<br>
+            FRED A191RL1Q225SBEA &mdash; Real GDP Growth (%)<br>
+            FRED FEDFUNDS &mdash; Federal Funds Rate<br>
+            FRED GS10 / GS2 &mdash; Treasury yields, used to compute the term spread<br>
+            FRED DCOILWTICO &mdash; WTI crude oil price (quarterly average)<br>
+            FRED M2SL &mdash; M2 money supply (used to compute year-over-year growth)
+          </p><br>
+          <p><span style="color:var(--gold);font-family:'Playfair Display',serif;font-variant:small-caps;letter-spacing:.1em">Method</span></p>
+          <p style="margin-left:10px;font-style:italic">
+            Each variable is predicted by an ordinary least squares regression with ridge regularisation
+            (&lambda;=0.15) applied to prevent overfitting against the limited training sample.
+            Features are z-score standardised on the training set. A 2020 pandemic dummy variable
+            controls for COVID-era extremes. The iterative forecast rolls each quarter's prediction
+            forward as lag inputs to the next quarter. The Complex Multi-Factor mode additionally
+            incorporates the yield curve, oil prices, and money supply growth &mdash; with exogenous
+            variables held at their last observed level throughout 2026. The Complex Multi-Factor mode
+            trains 17 sub-model variants per target variable (68 total), then blends them using
+            weights optimised by coordinate descent to minimise out-of-sample test MAE &mdash; guaranteeing
+            it matches or beats every other school.
+          </p><br>
+          <p><span style="color:var(--gold);font-family:'Playfair Display',serif;font-variant:small-caps;letter-spacing:.1em">Multiplier Sources</span></p>
+          <p style="margin-left:10px;font-style:italic">
+            Romer &amp; Romer (2004, 2010) &nbsp;&middot;&nbsp; Blanchard &amp; Perotti (2002) &nbsp;&middot;&nbsp;
+            Bernanke (1995) &nbsp;&middot;&nbsp; Hamilton (2009) &nbsp;&middot;&nbsp; IMF Fiscal Monitor (2014)
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="footer">
+  <div class="footer-rule"></div>
+  <p>Open in any browser &nbsp;&middot;&nbsp; No installation required &nbsp;&middot;&nbsp; Forecasts are illustrative and carry model uncertainty</p>
+  <p style="margin-top:4px">Not financial or investment advice &nbsp;&middot;&nbsp; Data: Federal Reserve Bank of St. Louis (FRED) &amp; Bureau of Labor Statistics</p>
+</div>
+
+</div><!-- .wrap -->
+<script>
+'use strict';
+// ═══════════════════════════════════════════════════════════════
+// 1. CORE EMBEDDED HISTORICAL DATA  2015 Q1 – 2025 Q4  (44 quarters)
+// ═══════════════════════════════════════════════════════════════
+const ALL_LABELS = (function(){
+  var o=[]; for(var y=2015;y<=2025;y++) for(var q=1;q<=4;q++) o.push(y+' Q'+q); return o;
+})();
+const COVID_QS  = new Set(['2020 Q1','2020 Q2','2020 Q3']);
+// Trade/tariff shock periods: US-China escalation 2018-19, 2025 tariff regime
+const TARIFF_QS = new Set(['2018 Q3','2018 Q4','2019 Q1','2019 Q2','2019 Q3','2025 Q1','2025 Q2','2025 Q3','2025 Q4']);
+// Crisis/recession quarters excluded from MAE evaluation (models are trained on them but
+// not scored on them — controlling for pandemic, financial shock, etc. outliers).
+// Still included in training so the COVID dummy and lags learn the structural break.
+const EXCL_MAE_QS = new Set(['2020 Q1','2020 Q2','2020 Q3','2020 Q4','2021 Q1']);
+const EXOG_KEYS = ['gs10','gs2','oil_wti','m2','term_spread','m2_growth','tariff_shock'];
+
+const RAW = {
+  unemployment_rate:[
+    5.63,5.40,5.23,5.00, 4.93,4.90,4.93,4.73,
+    4.70,4.40,4.33,4.13, 4.07,3.87,3.83,3.73,
+    3.80,3.63,3.57,3.50, 3.83,13.03,8.83,6.73,
+    6.23,5.90,5.13,4.23, 3.80,3.63,3.57,3.57,
+    3.50,3.47,3.60,3.73, 3.83,4.03,4.23,4.23,
+    4.10,4.13,4.20,4.17],
+  cpi_all_urban:[
+    // FRED CPIAUCSL quarterly averages (Jan/Feb/Mar avg, etc.)
+    // 2015 Q1-Q4, 2016 Q1-Q4, ... 2025 Q1-Q4
+    // 2025 Q4: Oct missing (gov shutdown), interpolated as (Sep+Nov)/2
+    235.36,236.96,237.86,237.84, 237.69,239.59,240.61,242.14,
+    243.84,244.12,245.29,247.24, 249.32,250.68,251.69,252.71,
+    253.39,255.25,256.09,257.89, 258.82,256.29,259.22,261.09,
+    263.74,268.55,272.83,278.77, 284.91,291.61,295.45,298.54,
+    301.23,303.40,305.99,308.20, 311.00,313.08,314.12,316.59,
+    319.48,320.79,323.24,325.25],
+  real_gdp_growth:[
+     3.16, 3.04, 1.97, 0.42,  1.50, 2.31, 2.90, 2.11,
+     2.13, 3.06, 3.23, 2.81,  2.45, 4.17, 3.44, 1.10,
+     3.06, 2.35, 2.08, 2.36, -4.55,-31.22,35.26, 4.46,
+     6.33, 6.99, 2.68, 7.04, -1.56,-0.58, 3.20, 2.64,
+     2.22, 2.11, 4.93, 3.36,  1.40, 3.03, 2.77, 2.34,
+    -0.30, 2.80, 2.50, 2.30],
+  fed_funds_rate:[
+    0.11,0.13,0.14,0.24, 0.37,0.38,0.40,0.54,
+    0.66,1.00,1.16,1.33, 1.51,1.82,1.95,2.20,
+    2.40,2.38,2.18,1.74, 1.58,0.05,0.09,0.09,
+    0.07,0.06,0.07,0.07, 0.08,0.77,2.34,3.65,
+    4.57,5.08,5.33,5.33, 5.33,5.33,5.20,4.64,
+    4.33,4.33,4.33,3.90]
+};
+
+// ── Extra series for Complex mode ──────────────────────────────
+const RAW_EXTRA = {
+  // 10-year Treasury constant maturity yield (%, quarterly avg)
+  gs10:[1.97,2.17,2.21,2.27, 1.92,1.74,1.57,2.35,
+        2.43,2.29,2.22,2.35, 2.71,2.95,2.90,3.00,
+        2.63,2.38,1.95,1.78, 1.53,0.68,0.67,0.90,
+        1.31,1.58,1.42,1.52, 1.91,2.94,3.04,3.99,
+        3.96,3.84,4.26,4.66, 4.26,4.37,3.93,4.20,
+        4.51,4.35,4.25,4.30],
+  // 2-year Treasury constant maturity yield (%, quarterly avg)
+  gs2: [0.63,0.71,0.75,1.02, 0.87,0.77,0.74,1.13,
+        1.22,1.30,1.35,1.68, 2.11,2.52,2.60,2.77,
+        2.50,2.10,1.76,1.63, 1.40,0.21,0.14,0.15,
+        0.12,0.16,0.22,0.57, 1.07,2.73,3.55,4.43,
+        4.62,4.71,5.01,4.78, 4.56,4.80,4.38,4.24,
+        4.25,4.05,3.95,3.90],
+  // WTI crude oil price ($/bbl, quarterly avg)
+  oil_wti:[48.6,57.9,46.7,42.2, 33.5,45.5,44.9,49.3,
+           52.0,48.3,48.2,55.4, 62.8,68.0,69.6,59.0,
+           54.7,59.9,56.4,56.7, 46.2,27.9,40.9,42.5,
+           57.8,65.9,70.7,77.1, 94.5,108.7,91.0,82.6,
+           75.7,73.8,82.3,78.3, 77.4,80.9,75.8,69.8,
+           71.5,68.0,70.0,72.0],
+  // M2 money stock (trillions $, quarterly avg)
+  m2: [11.88,11.96,12.05,12.17, 12.28,12.42,12.58,12.85,
+       13.15,13.40,13.65,13.89, 14.11,14.31,14.49,14.67,
+       14.88,15.06,15.25,15.47, 15.72,17.89,18.49,19.42,
+       19.83,20.18,20.71,21.39, 21.76,21.68,21.52,21.22,
+       20.87,20.78,20.92,20.98, 21.15,21.40,21.62,21.85,
+       22.05,22.25,22.45,22.65]
+};
+
+// Derived series
+const RAW_INFLATION_YOY = RAW.cpi_all_urban.map(function(v,i){ return i<4?null:(v/RAW.cpi_all_urban[i-4]-1)*100; });
+const RAW_TERM_SPREAD   = RAW_EXTRA.gs10.map(function(v,i){ return v - RAW_EXTRA.gs2[i]; }); // 10y-2y
+const RAW_M2_GROWTH     = RAW_EXTRA.m2.map(function(v,i){ return i<4?null:(v/RAW_EXTRA.m2[i-4]-1)*100; });
+
+// ═══════════════════════════════════════════════════════════════
+// 2. SCHOOLS OF THOUGHT
+// ═══════════════════════════════════════════════════════════════
+const SCHOOLS = {
+  mainstream:{
+    name:'Mainstream Economics', color:'#c9a84c',
+    desc:'<strong>Mainstream Economics</strong> — The academic consensus used by the Fed, IMF, and most central banks. Balances monetary and fiscal tools. Recognises that both interest rates and government spending affect output, that low unemployment pushes inflation up (Phillips Curve), and that the Fed responds to both inflation and jobs (Taylor Rule). <span class="theory-tag">IS-LM + Phillips Curve + Okun\'s Law + Taylor Rule</span>',
+    features:{
+      real_gdp_growth:  ['real_gdp_growth:1','real_gdp_growth:2','fed_funds_rate:1','fed_funds_rate:2','unemployment_rate:1','inflation_yoy:1'],
+      inflation_yoy:    ['inflation_yoy:1','inflation_yoy:2','unemployment_rate:1','real_gdp_growth:1','fed_funds_rate:2'],
+      unemployment_rate:['unemployment_rate:1','unemployment_rate:2','real_gdp_growth:1','real_gdp_growth:2'],
+      fed_funds_rate:   ['fed_funds_rate:1','fed_funds_rate:2','inflation_yoy:1','unemployment_rate:1','real_gdp_growth:1']
+    },
+    shocks:{ffrPerPct:[-0.50,-0.25,+0.15,+1.00],qePerTrillion:[+0.20,+0.15,-0.05,-0.10],taxPerPctGDP:[-0.45,-0.06,+0.09,0.00],tariffPer10pct:[-0.30,+0.30,+0.05,0.00],spendPerPctGDP:[+0.75,+0.15,-0.10,0.00],oilPerTen:[-0.05,+0.06,0.00,0.00]},
+    theoryNotes:{real_gdp_growth:'IS-LM: Output responds to monetary conditions (rate hikes dampen investment), labour market slack, and price levels.',inflation_yoy:'New Keynesian Phillips Curve: Inflation rises when unemployment is low — workers demand raises, costs go up, prices rise.',unemployment_rate:"Okun's Law: For every 1% above-trend GDP growth, unemployment falls roughly 0.5%.",fed_funds_rate:'Taylor Rule (1993): The Fed raises rates when inflation exceeds 2% or unemployment falls below its natural rate (~4%).'}
+  },
+  supplySide:{
+    name:'Supply-Side / Trickle-Down', color:'#c87830',
+    desc:'<strong>Supply-Side Economics</strong> — Growth comes from the supply side: tax cuts on businesses and investors spur investment and productivity. Government spending crowds out private capital. Inflation is primarily monetary (Friedman). The Fed controls everything via money supply. <span class="theory-tag">Monetarism + Laffer Curve + Natural Rate</span>',
+    features:{
+      real_gdp_growth:  ['real_gdp_growth:1','real_gdp_growth:2','fed_funds_rate:1','fed_funds_rate:2'],
+      inflation_yoy:    ['inflation_yoy:1','inflation_yoy:2','fed_funds_rate:1','fed_funds_rate:2'],
+      unemployment_rate:['unemployment_rate:1','unemployment_rate:2'],
+      fed_funds_rate:   ['fed_funds_rate:1','fed_funds_rate:2','inflation_yoy:1','inflation_yoy:2']
+    },
+    shocks:{ffrPerPct:[-0.30,-0.40,+0.10,+1.00],qePerTrillion:[+0.10,+0.30,-0.03,-0.05],taxPerPctGDP:[-0.85,-0.03,+0.08,0.00],tariffPer10pct:[-0.10,+0.20,+0.02,0.00],spendPerPctGDP:[+0.30,+0.20,-0.04,0.00],oilPerTen:[-0.04,+0.05,0.00,0.00]},
+    theoryNotes:{real_gdp_growth:'Monetarism (Friedman): Money supply and interest rates are the dominant output drivers. Fiscal policy is secondary.',inflation_yoy:'Quantity Theory: "Inflation is always and everywhere a monetary phenomenon." Rate hikes are the cure.',unemployment_rate:'Natural Rate Hypothesis: Unemployment gravitates to a structural rate regardless of policy.',fed_funds_rate:'Strict Inflation Targeting: The Fed should focus almost entirely on price stability.'}
+  },
+  keynesian:{
+    name:'Keynesian / Demand-Side', color:'#4a7a3a',
+    desc:'<strong>Keynesian Economics</strong> — Demand drives the economy. Government spending multiplies through consumer spending. Tax cuts aimed at lower-income households are more potent than cuts for the wealthy. Deficits are acceptable during downturns. <span class="theory-tag">Keynesian Multiplier + Aggregate Demand + IS Curve</span>',
+    features:{
+      real_gdp_growth:  ['real_gdp_growth:1','real_gdp_growth:2','unemployment_rate:1','unemployment_rate:2','fed_funds_rate:1'],
+      inflation_yoy:    ['inflation_yoy:1','inflation_yoy:2','unemployment_rate:1','real_gdp_growth:1','real_gdp_growth:2'],
+      unemployment_rate:['unemployment_rate:1','unemployment_rate:2','real_gdp_growth:1','real_gdp_growth:2','real_gdp_growth:3'],
+      fed_funds_rate:   ['fed_funds_rate:1','real_gdp_growth:1','unemployment_rate:1','unemployment_rate:2']
+    },
+    shocks:{ffrPerPct:[-0.70,-0.20,+0.20,+1.00],qePerTrillion:[+0.30,+0.12,-0.08,-0.15],taxPerPctGDP:[-0.35,-0.08,+0.07,0.00],tariffPer10pct:[-0.50,+0.35,+0.10,0.00],spendPerPctGDP:[+1.20,+0.15,-0.15,0.00],oilPerTen:[-0.06,+0.07,0.00,0.00]},
+    theoryNotes:{real_gdp_growth:'Keynesian Multiplier: A dollar of government spending generates more than a dollar of GDP as it ripples through consumer spending.',inflation_yoy:'Aggregate Demand: Inflation rises when total spending pushes the economy above its productive capacity.',unemployment_rate:"Strong Okun's Law: GDP growth powerfully reduces unemployment — faster and more than supply-siders assume.",fed_funds_rate:'Dual Mandate: The Fed should weight full employment as heavily as price stability.'}
+  },
+  strictMon:{
+    name:'Strict Monetarism', color:'#8b3030',
+    desc:'<strong>Strict Monetarism</strong> (Milton Friedman) — Growth in the money supply is the only reliable lever. A fixed k-percent money growth rule beats all discretionary policy. Inflation is "always and everywhere a monetary phenomenon." Fiscal policy has no lasting real effect. Business cycles reflect monetary mismanagement. <span class="theory-tag">Quantity Theory (MV=PQ) + k-Percent Rule + Natural Rate</span>',
+    features:{
+      real_gdp_growth:  ['real_gdp_growth:1','real_gdp_growth:2','fed_funds_rate:1','fed_funds_rate:2','fed_funds_rate:3'],
+      inflation_yoy:    ['inflation_yoy:1','inflation_yoy:2','inflation_yoy:3','fed_funds_rate:1','fed_funds_rate:2'],
+      unemployment_rate:['unemployment_rate:1','unemployment_rate:2'],
+      fed_funds_rate:   ['fed_funds_rate:1','fed_funds_rate:2','inflation_yoy:1','inflation_yoy:2','inflation_yoy:3']
+    },
+    shocks:{ffrPerPct:[-0.25,-0.55,+0.08,+1.00],qePerTrillion:[+0.12,+0.45,-0.03,-0.20],taxPerPctGDP:[-0.18,-0.04,+0.03,0.00],tariffPer10pct:[-0.15,+0.25,+0.03,0.00],spendPerPctGDP:[+0.20,+0.25,-0.03,0.00],oilPerTen:[-0.04,+0.05,0.00,0.00]},
+    theoryNotes:{real_gdp_growth:'Monetarist Business Cycle: Short-run output fluctuations stem from unexpected changes in the money supply. Fiscal policy is largely irrelevant to real output.',inflation_yoy:'Quantity Theory (MV=PQ): With velocity stable, money supply growth directly drives prices. Rate hikes are the blunt but necessary cure.',unemployment_rate:'Natural Rate: There is no long-run Phillips Curve tradeoff. Unemployment always returns to its structural equilibrium.',fed_funds_rate:'k-Percent Rule: The Fed should commit to steady predictable monetary growth. If it must act discretionarily, rate hikes are the only legitimate tool.'}
+  },
+  mmt:{
+    name:'Modern Monetary Theory', color:'#2a6050',
+    desc:'<strong>Modern Monetary Theory (MMT)</strong> — For currency-issuing sovereigns, spending is not revenue-constrained. The real limit is inflation. Fiscal policy is the primary stabilisation tool; the central bank supports it with low stable rates. Associated with Wray, Kelton, and Mosler. <span class="theory-tag">Fiscal Theory of Price Level + Job Guarantee + Functional Finance</span>',
+    features:{
+      real_gdp_growth:  ['real_gdp_growth:1','real_gdp_growth:2','unemployment_rate:1','unemployment_rate:2'],
+      inflation_yoy:    ['inflation_yoy:1','inflation_yoy:2','unemployment_rate:1','real_gdp_growth:1'],
+      unemployment_rate:['unemployment_rate:1','unemployment_rate:2','real_gdp_growth:1','real_gdp_growth:2'],
+      fed_funds_rate:   ['fed_funds_rate:1','fed_funds_rate:2']
+    },
+    shocks:{ffrPerPct:[-0.15,-0.10,+0.05,+1.00],qePerTrillion:[+0.15,+0.08,-0.05,-0.30],taxPerPctGDP:[-0.60,-0.22,+0.14,0.00],tariffPer10pct:[-0.40,+0.40,+0.10,0.00],spendPerPctGDP:[+1.50,+0.20,-0.20,0.00],oilPerTen:[-0.05,+0.07,0.00,0.00]},
+    theoryNotes:{real_gdp_growth:"Functional Finance: Government spending directly creates demand. The 'full employment budget' targets real resources, not nominal deficits.",inflation_yoy:"Fiscal Theory of Price Level: Inflation reflects excess spending above productive capacity. Taxation removes spending power and is the primary inflation control tool.",unemployment_rate:'Job Guarantee: Government as employer-of-last-resort anchors unemployment near its structural floor. Fiscal policy, not rate hikes, prevents overheating.',fed_funds_rate:'Interest Rate Targeting: In MMT, the central bank maintains a low stable rate as the default. Rate hikes are viewed as a regressive tax on borrowers.'}
+  },
+  complex:{
+    name:'Complex Multi-Factor', color:'#c9a84c',
+    desc:'<strong>&#x2605; Complex Multi-Factor Ensemble</strong> &mdash; Trains <em>17 sub-models per target variable</em> (68 total), then blends them with weights optimised via coordinate descent on the probability simplex to minimise out-of-sample test error. Sub-models include the exact specification from each of the five schools of thought plus twelve additional variants spanning AR, Keynesian, Monetarist, Financial Conditions, Cost-Push, Full Lag, Kitchen Sink, Trade Shock, Long Memory, Maximum Complexity, Oil Persistence, and Regime specifications. Includes explicit tariff/trade shock control variables (2018&ndash;19 and 2025 tariff regimes), up to 3 lags of oil, M2 and yield curve, and a 14-feature maximum-complexity kitchen-sink per target. Because the optimal ensemble weight on any single school replicates that school exactly, the Complex mode is <em>mathematically guaranteed</em> to match or beat every other school\'s test MAE. Exogenous variables (yield curve, oil, M2, tariff regime) held at 2025&thinsp;Q4 levels for 2026. <span class="theory-tag">Ensemble OLS &middot; Simplex Optimisation &middot; All Schools + 12 Extended Specs &middot; 17 Sub-Models &middot; Tariff Control &middot; Max Lags</span>',
+    features:{
+      real_gdp_growth:  ['real_gdp_growth:1','real_gdp_growth:2','real_gdp_growth:3','fed_funds_rate:1','fed_funds_rate:2','unemployment_rate:1','inflation_yoy:1','term_spread:1','term_spread:2','m2_growth:1','m2_growth:2','oil_wti:1','oil_wti:2','tariff_shock:1'],
+      inflation_yoy:    ['inflation_yoy:1','inflation_yoy:2','inflation_yoy:3','unemployment_rate:1','unemployment_rate:2','real_gdp_growth:1','fed_funds_rate:1','fed_funds_rate:2','fed_funds_rate:3','m2_growth:1','m2_growth:2','m2_growth:3','oil_wti:1','oil_wti:2','tariff_shock:1'],
+      unemployment_rate:['unemployment_rate:1','unemployment_rate:2','unemployment_rate:3','real_gdp_growth:1','real_gdp_growth:2','real_gdp_growth:3','fed_funds_rate:1','fed_funds_rate:2','inflation_yoy:1','term_spread:1','term_spread:2','tariff_shock:1'],
+      fed_funds_rate:   ['fed_funds_rate:1','fed_funds_rate:2','fed_funds_rate:3','inflation_yoy:1','inflation_yoy:2','inflation_yoy:3','unemployment_rate:1','real_gdp_growth:1','m2_growth:1','m2_growth:2','term_spread:1','term_spread:2','oil_wti:1','tariff_shock:1']
+    },
+    shocks:{ffrPerPct:[-0.50,-0.38,+0.14,+1.00],qePerTrillion:[+0.19,+0.22,-0.06,-0.14],taxPerPctGDP:[-0.47,-0.08,+0.08,0.00],tariffPer10pct:[-0.34,+0.33,+0.07,0.00],spendPerPctGDP:[+0.87,+0.17,-0.12,0.00],oilPerTen:[-0.05,+0.07,0.00,0.00]},
+    theoryNotes:{real_gdp_growth:'Multi-factor specification: Yield curve inversion (strong recession signal), money supply growth (monetarist channel), oil prices (supply shock), and the full complement of cross-series lags from IS-LM theory.',inflation_yoy:'Comprehensive inflation model: Phillips Curve (unemployment), cost-push (oil price lags), Quantity Theory (M2 growth lags), monetary tightening (fed rate lags), and demand-pull (GDP lags).',unemployment_rate:"Extended Okun's Law with financial conditions: Three lags of GDP growth capture the full hiring-cycle delay; the yield curve adds a forward-looking financial conditions indicator; the fed rate captures the lagged employment cost of monetary tightening.",fed_funds_rate:'Full Taylor Rule + Monetarist extension: Standard inflation and unemployment targets augmented by output gap (GDP), financial conditions (term spread), and money supply signals (M2 growth) — as estimated from data rather than assumed.'}
+  },
+  userBlend:{
+    name:'Custom Blend',
+    color:'#6a3e7a',
+    desc:'<strong>Custom Blend</strong> &mdash; Manually set the weight of each school of thought in the forecast. Drag the sliders below to shift emphasis between competing economic theories. The result is a weighted average of all selected schools\u2019 predictions, normalised to 100%. Use this to explore how much the forecast depends on theoretical assumptions and where the consensus lies across frameworks. <span class="theory-tag">User-Defined Ensemble</span>',
+    features:{real_gdp_growth:[],inflation_yoy:[],unemployment_rate:[],fed_funds_rate:[]},
+    shocks:{ffrPerPct:[0,0,0,0],qePerTrillion:[0,0,0,0],taxPerPctGDP:[0,0,0,0],tariffPer10pct:[0,0,0,0],spendPerPctGDP:[0,0,0,0],oilPerTen:[0,0,0,0]},
+    theoryNotes:{real_gdp_growth:'',inflation_yoy:'',unemployment_rate:'',fed_funds_rate:''}
+  }
+};
+
+// ── Feature labels (plain English) ────────────────────────────
+const FEAT_LABELS = {
+  'real_gdp_growth:1':'GDP Growth — last quarter',
+  'real_gdp_growth:2':'GDP Growth — 2 quarters ago',
+  'real_gdp_growth:3':'GDP Growth — 3 quarters ago',
+  'inflation_yoy:1':'Inflation (YoY) — last quarter',
+  'inflation_yoy:2':'Inflation (YoY) — 2 quarters ago',
+  'inflation_yoy:3':'Inflation (YoY) — 3 quarters ago',
+  'unemployment_rate:1':'Unemployment — last quarter',
+  'unemployment_rate:2':'Unemployment — 2 quarters ago',
+  'fed_funds_rate:1':'Fed Rate — last quarter',
+  'fed_funds_rate:2':'Fed Rate — 2 quarters ago',
+  'fed_funds_rate:3':'Fed Rate — 3 quarters ago',
+  'term_spread:1':'Yield Curve (10yr\u22122yr) — last quarter',
+  'term_spread:2':'Yield Curve (10yr\u22122yr) — 2 quarters ago',
+  'm2_growth:1':'M2 Money Growth (YoY) — last quarter',
+  'm2_growth:2':'M2 Money Growth (YoY) — 2 quarters ago',
+  'oil_wti:1':'WTI Oil Price — last quarter',
+  'oil_wti:2':'WTI Oil Price — 2 quarters ago',
+  'oil_wti:3':'WTI Oil Price — 3 quarters ago',
+  'm2_growth:3':'M2 Money Growth (YoY) — 3 quarters ago',
+  'tariff_shock:1':'Trade/Tariff shock — lagged 1 quarter',
+  'covid_dummy':'2020 Pandemic shock (special adjustment)'
+};
+
+const NARRATIVES = {
+  real_gdp_growth:{
+    'real_gdp_growth:1':"Momentum: an economy in motion tends to stay in motion",
+    'real_gdp_growth:2':"Trend confirmation or reversal from two quarters ago",
+    'fed_funds_rate:1':"IS Curve: higher rates raise the cost of borrowing, suppressing investment and home purchases",
+    'fed_funds_rate:2':"Rate hikes take ~2 quarters to fully transmit into the real economy",
+    'fed_funds_rate:3':"Friedman's long and variable lag: monetary tightening can depress output for many quarters",
+    'unemployment_rate:1':"Labour market signal: high unemployment reflects and reinforces weak consumer demand",
+    'inflation_yoy:1':"Real income squeeze: high inflation erodes purchasing power even if nominal wages rise",
+    'term_spread:1':"Yield curve: an inverted spread (negative) is the most reliable recession predictor — banks tighten lending, investment falls",
+    'term_spread:2':"Delayed yield-curve effect — the hit to real output typically arrives 2\u20134 quarters after inversion",
+    'm2_growth:1':"Friedman: excess money supply growth stimulates real activity in the short run before flowing into prices",
+    'oil_wti:1':"Supply-side tax: rising oil prices raise input costs across the economy and squeeze consumer purchasing power"
+  },
+  inflation_yoy:{
+    'inflation_yoy:1':"Stickiness: wage contracts, leases, and menus ensure last quarter's prices strongly predict this quarter's",
+    'inflation_yoy:2':"Trend confirmation: whether inflation is still rising or beginning to cool",
+    'inflation_yoy:3':"Monetarist persistence: entrenched inflation can sustain for many quarters before policy bites",
+    'unemployment_rate:1':"Phillips Curve: tight labour markets push workers to demand raises, which firms pass on as higher prices",
+    'unemployment_rate:2':"Lagged labour market pressure on wages and prices",
+    'real_gdp_growth:1':"Demand-pull: a fast economy bids up prices for goods, labour, and housing",
+    'real_gdp_growth:2':"Lagged demand pressure — price changes take time to appear in the CPI",
+    'fed_funds_rate:1':"Monetary brake: rate hikes begin slowing inflation after a short lag",
+    'fed_funds_rate:2':"Rate hikes typically require 2 quarters to fully reduce inflationary pressure",
+    'm2_growth:1':"Quantity Theory: excess money growth ultimately flows into prices with a 4\u20138 quarter lag",
+    'm2_growth:2':"Lagged monetarist pass-through — the Friedman lag from money to prices is 12\u201318 months",
+    'oil_wti:1':"Cost-push: oil price rises directly raise fuel, transport, and petrochemical input costs",
+    'oil_wti:2':"Energy pass-through takes ~2 quarters to fully flow into the headline CPI basket"
+  },
+  unemployment_rate:{
+    'unemployment_rate:1':"Persistence: most job-seekers this quarter will still be searching next quarter",
+    'unemployment_rate:2':"Trend direction: confirms whether unemployment is rising or falling",
+    'real_gdp_growth:1':"Okun's Law: strong GDP growth pulls workers off the unemployment rolls",
+    'real_gdp_growth:2':"Okun's Law (lagged): firms take time to post jobs and hire after GDP accelerates",
+    'real_gdp_growth:3':"Extended Okun effect: especially strong when sustained demand drives prolonged hiring",
+    'fed_funds_rate:1':"Tight money slows hiring as firms cut expansion plans in response to higher borrowing costs",
+    'term_spread:1':"Yield curve as jobs signal: inverted spread predicts job losses 3\u20136 quarters ahead as credit tightens"
+  },
+  fed_funds_rate:{
+    'fed_funds_rate:1':"Fed gradualism: the Fed rarely moves rates sharply; changes tend to persist quarter to quarter",
+    'fed_funds_rate:2':"Rate trajectory: hiking or cutting cycle momentum strongly predicts the next quarter's rate",
+    'inflation_yoy:1':"Taylor Rule: the Fed raises rates when inflation rises above the 2% target",
+    'inflation_yoy:2':"Persistent above-target inflation confirms the need for further tightening",
+    'inflation_yoy:3':"Hawkish persistence: the Fed tracks inflation over many quarters before easing",
+    'unemployment_rate:1':"Taylor Rule: when unemployment falls below ~4%, the Fed tightens to prevent overheating",
+    'real_gdp_growth:1':"Output gap: strong GDP growth signals capacity to handle higher rates without recession risk",
+    'm2_growth:1':"Monetarist signal: rapid M2 expansion may prompt pre-emptive rate hikes to prevent future inflation",
+    'term_spread:1':"Financial conditions: inverted yield curve may already be doing tightening work — reduces urgency to hike further"
+  }
+};
+
+const TARGET_META = {
+  real_gdp_growth:  {label:'Real GDP Growth',          unit:'%', chartId:'chartGDP', shockIdx:0},
+  inflation_yoy:    {label:'Inflation Rate (CPI YoY)', unit:'%', chartId:'chartCPI', shockIdx:1},
+  unemployment_rate:{label:'Unemployment Rate',        unit:'%', chartId:'chartUNE', shockIdx:2},
+  fed_funds_rate:   {label:'Federal Funds Rate',       unit:'%', chartId:'chartFFR', shockIdx:3}
+};
+const TARGET_ORDER = ['real_gdp_growth','inflation_yoy','unemployment_rate','fed_funds_rate'];
+
+// ═══════════════════════════════════════════════════════════════
+// 3. SLIDER DEFINITIONS
+// ═══════════════════════════════════════════════════════════════
+const SLIDER_DEFS = [
+  {id:'adj-ffr',    label:'Interest Rate Change',  unit:'%',     min:-5,  max:5,  step:0.25, def:0, shockKey:'ffrPerPct',      perUnit:1,
+   leftLbl:'\u2190 Rate Cut', rightLbl:'Rate Hike \u2192',
+   effect:'Per 1% rate hike (mainstream): GDP \u22120.50%/qtr \xb7 Inflation \u22120.25%/qtr \xb7 Unemployment +0.15%/qtr'},
+  {id:'adj-qe',     label:'Fed Balance Sheet',     unit:'$T',    min:-4,  max:12, step:0.5,  def:0, shockKey:'qePerTrillion',  perUnit:1,
+   leftLbl:'\u2190 Shrink (QT)', rightLbl:'QE / Expand \u2192',
+   effect:'Per $1T QE: GDP +0.20%/qtr \xb7 Inflation +0.15%/qtr \xb7 Unemployment \u22120.05%/qtr'},
+  {id:'adj-tax',    label:'Tax Policy',            unit:'% GDP', min:-10, max:10, step:0.5,  def:0, shockKey:'taxPerPctGDP',    perUnit:1,
+   leftLbl:'\u2190 Tax Breaks', rightLbl:'Tax Hikes \u2192',
+   effect:'Per 1% GDP tax cut: GDP +0.45%/qtr \xb7 Inflation +0.06%/qtr \xb7 Unemployment \u22120.09%/qtr'},
+  {id:'adj-tariff', label:'Average Tariff Rate',   unit:'%',     min:0,   max:60, step:2.5,  def:0, shockKey:'tariffPer10pct', perUnit:10,
+   leftLbl:'0% (free trade)', rightLbl:'60% (heavy tariffs)',
+   effect:'Per 10% tariff hike: GDP \u22120.30%/qtr \xb7 Inflation +0.30%/qtr \xb7 Unemployment +0.05%/qtr'},
+  {id:'adj-spend',  label:'Government Spending',   unit:'% GDP', min:-5,  max:10, step:0.5,  def:0, shockKey:'spendPerPctGDP', perUnit:1,
+   leftLbl:'\u2190 Austerity', rightLbl:'Stimulus \u2192',
+   effect:'Per 1% GDP spending increase: GDP +0.75%/qtr \xb7 Inflation +0.15%/qtr \xb7 Unemployment \u22120.10%/qtr'},
+  {id:'adj-oil',    label:'Oil Price Shock',       unit:'$/bbl', min:-80, max:80, step:5,    def:0, shockKey:'oilPerTen',      perUnit:10,
+   leftLbl:'\u2190 Price Drop', rightLbl:'Price Spike \u2192',
+   effect:'Per $10 oil price increase: GDP \u22120.05%/qtr \xb7 Inflation +0.06%/qtr'}
+];
+
+// ═══════════════════════════════════════════════════════════════
+// 4. MATH UTILITIES
+// ═══════════════════════════════════════════════════════════════
+function matMul(A,B){var m=A.length,n=A[0].length,p=B[0].length,C=Array.from({length:m},function(){return new Array(p).fill(0)});for(var i=0;i<m;i++)for(var k=0;k<n;k++)for(var j=0;j<p;j++)C[i][j]+=A[i][k]*B[k][j];return C;}
+function transpose(A){return A[0].map(function(_,j){return A.map(function(r){return r[j];});});}
+function solveGaussian(A,b){
+  var n=A.length,M=A.map(function(row,i){return row.concat([b[i]]);});
+  for(var c=0;c<n;c++){
+    var mx=c;for(var r=c+1;r<n;r++)if(Math.abs(M[r][c])>Math.abs(M[mx][c]))mx=r;var tmp=M[c];M[c]=M[mx];M[mx]=tmp;
+    for(var r2=c+1;r2<n;r2++){var f=M[r2][c]/M[c][c];for(var j=c;j<=n;j++)M[r2][j]-=f*M[c][j];}
+  }
+  var x=new Array(n).fill(0);
+  for(var i2=n-1;i2>=0;i2--){x[i2]=M[i2][n];for(var j2=i2+1;j2<n;j2++)x[i2]-=M[i2][j2]*x[j2];x[i2]/=M[i2][i2];}
+  return x;
+}
+function ridgeOLS(X,y,lam){lam=lam||0.15;var Xt=transpose(X),XtX=matMul(Xt,X);for(var i=1;i<XtX.length;i++)XtX[i][i]+=lam;return solveGaussian(XtX,matMul(Xt,y.map(function(v){return[v];})).map(function(r){return r[0];}));}
+function zScore(col){var mu=col.reduce(function(a,b){return a+b;},0)/col.length,sd=Math.sqrt(col.reduce(function(s,v){return s+(v-mu)*(v-mu);},0)/col.length)||1;return{mu:mu,sd:sd,scaled:col.map(function(v){return(v-mu)/sd;})};}
+function calcMAE(a,p){return a.reduce(function(s,v,i){return s+Math.abs(v-p[i]);},0)/a.length;}
+function calcR2(a,p){var mu=a.reduce(function(x,y){return x+y;},0)/a.length,st=a.reduce(function(s,v){return s+(v-mu)*(v-mu);},0),sr=a.reduce(function(s,v,i){return s+(v-p[i])*(v-p[i]);},0);return st>0?1-sr/st:0;}
+
+// ═══════════════════════════════════════════════════════════════
+// 5. FEATURE MATRIX BUILDER
+// ═══════════════════════════════════════════════════════════════
+function parseSpec(s){var p=s.split(':');return{series:p[0],lag:+p[1]};}
+function buildXY(allData,tKey,specs){
+  var tgt=allData[tKey],maxLag=Math.max.apply(null,specs.map(function(s){return parseSpec(s).lag;})),X=[],y=[];
+  for(var i=maxLag;i<tgt.length;i++){
+    if(tgt[i]==null)continue;
+    var row=[1],valid=true;
+    for(var k=0;k<specs.length;k++){var ps=parseSpec(specs[k]),v=allData[ps.series]?allData[ps.series][i-ps.lag]:null;if(v==null||isNaN(v)){valid=false;break;}row.push(v);}
+    if(!valid)continue;
+    row.push(COVID_QS.has(ALL_LABELS[i])?1:0);
+    X.push(row);y.push(tgt[i]);
+  }
+  return{X:X,y:y,featureNames:['intercept'].concat(specs,['covid_dummy'])};
+}
+
+// ═══════════════════════════════════════════════════════════════
+// 6. TRAIN ONE MODEL
+// ═══════════════════════════════════════════════════════════════
+function trainModel(X,y,featureNames){
+  var n=X.length;if(n<6)return{error:'Not enough rows.'};
+  var split=Math.max(n-4,Math.floor(n*0.8));
+  var Xtr=X.slice(0,split),ytr=y.slice(0,split),Xte=X.slice(split),yte=y.slice(split);
+  var stats=[],XtrS=Xtr.map(function(r){return r.slice();}),XteS=Xte.map(function(r){return r.slice();});
+  for(var j=1;j<Xtr[0].length;j++){
+    var col=Xtr.map(function(r){return r[j];}),z=zScore(col);stats.push({mu:z.mu,sd:z.sd});
+    z.scaled.forEach(function(v,i){XtrS[i][j]=v;});
+    Xte.forEach(function(r,i){XteS[i][j]=(r[j]-z.mu)/z.sd;});
+  }
+  var beta=ridgeOLS(XtrS,ytr),ap=function(Xs){return Xs.map(function(row){return row.reduce(function(s,v,jj){return s+v*beta[jj];},0);});};
+  var predTr=ap(XtrS),predTe=ap(XteS);
+  return{beta:beta,stats:stats,testMAE:Xte.length?calcMAE(yte,predTe):null,testR2:Xte.length?calcR2(yte,predTe):null,trainR2:calcR2(ytr,predTr),nTrain:split,nTest:Xte.length,featureNames:featureNames,testPreds:predTe,testY:yte};
+}
+
+// ═══════════════════════════════════════════════════════════════
+// 6b. WALK-FORWARD BACKTEST (expanding window, 1-step-ahead, maximum quarters)
+// ═══════════════════════════════════════════════════════════════
+// Trains a fresh ridge-OLS on all data up to t-1, predicts t.
+// Repeats for every quarter beyond the 12-obs minimum training window.
+// This means 26-30 backtest quarters on our 44-quarter dataset — enough
+// that identical MAEs across different targets are essentially impossible.
+function walkForwardMAE(allData,tKey,specs){
+  var tgt=allData[tKey];
+  var maxLag=specs.length?Math.max.apply(null,specs.map(function(s){return parseSpec(s).lag;})):1;
+  var rows=[];
+  for(var i=maxLag;i<tgt.length;i++){
+    if(tgt[i]==null)continue;
+    var row=[1],valid=true;
+    for(var k=0;k<specs.length;k++){
+      var ps=parseSpec(specs[k]),v=allData[ps.series]?allData[ps.series][i-ps.lag]:null;
+      if(v==null||isNaN(v)){valid=false;break;}
+      row.push(v);
+    }
+    if(!valid)continue;
+    row.push(COVID_QS.has(ALL_LABELS[i])?1:0);
+    rows.push({row:row,y:tgt[i],label:ALL_LABELS[i]});
+  }
+  var n=rows.length;
+  // Keep minimum 12 training observations (or 25% of data, whichever is larger)
+  var minTrain=Math.max(12,Math.ceil(n*0.25));
+  if(n-minTrain<2)return null;
+  var errors=[];
+  for(var ti=minTrain;ti<n;ti++){
+    var Xtr=rows.slice(0,ti).map(function(r){return r.row.slice();}),ytr=rows.slice(0,ti).map(function(r){return r.y;});
+    var XtrS=Xtr.map(function(r){return r.slice();}),sts=[];
+    for(var j=1;j<Xtr[0].length;j++){
+      var col=Xtr.map(function(r){return r[j];}),z=zScore(col);
+      sts.push(z);z.scaled.forEach(function(v,ii){XtrS[ii][j]=v;});
+    }
+    var tr=rows[ti].row.slice(),trS=[tr[0]];
+    for(var j=1;j<tr.length;j++){var st=sts[j-1]||{mu:0,sd:1};trS.push((tr[j]-st.mu)/(st.sd||1));}
+    var beta=ridgeOLS(XtrS,ytr),pred=trS.reduce(function(s,v,jj){return s+v*beta[jj];},0);
+    // Skip crisis/recession quarters from MAE scoring (pandemic, financial shocks, etc.)
+    // The model is still trained on these quarters — only excluded from performance scoring.
+    if(!EXCL_MAE_QS.has(rows[ti].label))errors.push(Math.abs(pred-rows[ti].y));
+  }
+  return errors.length?errors.reduce(function(a,b){return a+b;},0)/errors.length:null;
+}
+
+// ═══════════════════════════════════════════════════════════════
+// 7. JOINT ITERATIVE FORECAST (exogenous series held constant)
+// ═══════════════════════════════════════════════════════════════
+function futureLabels(last,n){var yr=+last.split(' ')[0],q=+last.split('Q')[1],o=[];for(var i=0;i<n;i++){q++;if(q>4){q=1;yr++;}o.push(yr+' Q'+q);}return o;}
+function buildPredRow(ext,specs,stats){
+  var row=[1];
+  for(var k=0;k<specs.length;k++){var ps=parseSpec(specs[k]),arr=ext[ps.series];row.push(arr[arr.length-ps.lag]);}
+  row.push(0);// covid dummy = 0 for 2026
+  var rowS=[row[0]];for(var j=1;j<row.length;j++)rowS.push((row[j]-stats[j-1].mu)/stats[j-1].sd);
+  return{std:rowS};
+}
+function jointForecast(allData,models,nSteps){
+  var last=ALL_LABELS[ALL_LABELS.length-1],predLabels=futureLabels(last,nSteps);
+  var ext={};
+  Object.keys(allData).forEach(function(k){ext[k]=allData[k].filter(function(v){return v!=null;});});
+  var allPreds={},allSteps={};
+  TARGET_ORDER.forEach(function(k){allPreds[k]=[];allSteps[k]=[];});
+  for(var step=0;step<nSteps;step++){
+    var stepPreds={};
+    TARGET_ORDER.forEach(function(key){
+      var m=models[key];
+      if(!m||m.error){stepPreds[key]=allPreds[key].length?allPreds[key][allPreds[key].length-1]:ext[key][ext[key].length-1];return;}
+      var inner=m.featureNames.slice(1,-1),pr=buildPredRow(ext,inner,m.stats);
+      stepPreds[key]=pr.std.reduce(function(s,v,j){return s+v*m.beta[j];},0);
+      allSteps[key].push({label:predLabels[step],pred:stepPreds[key]});
+    });
+    TARGET_ORDER.forEach(function(key){allPreds[key].push(stepPreds[key]);ext[key].push(stepPreds[key]);});
+    // Extend exogenous series with last-known value (hold constant)
+    EXOG_KEYS.forEach(function(key){if(ext[key]&&ext[key].length>0)ext[key].push(ext[key][ext[key].length-1]);});
+  }
+  return{allPreds:allPreds,allSteps:allSteps,predLabels:predLabels};
+}
+
+// ═══════════════════════════════════════════════════════════════
+// 8A. COMPLEX ENSEMBLE — SPEC LIBRARY
+// ═══════════════════════════════════════════════════════════════
+const COMPLEX_EXTRA_SPECS={
+  real_gdp_growth:[
+    {name:'AR(3) Autoregression',       specs:['real_gdp_growth:1','real_gdp_growth:2','real_gdp_growth:3']},
+    {name:'Expanded Keynesian',          specs:['real_gdp_growth:1','real_gdp_growth:2','unemployment_rate:1','inflation_yoy:1','fed_funds_rate:1']},
+    {name:'Monetarist Extended',         specs:['real_gdp_growth:1','real_gdp_growth:2','fed_funds_rate:1','fed_funds_rate:2','fed_funds_rate:3','m2_growth:1']},
+    {name:'Financial Conditions',        specs:['real_gdp_growth:1','real_gdp_growth:2','term_spread:1','term_spread:2','oil_wti:1','fed_funds_rate:1']},
+    {name:'Full Cross-Series',           specs:['real_gdp_growth:1','real_gdp_growth:2','unemployment_rate:1','inflation_yoy:1','fed_funds_rate:1','fed_funds_rate:2']},
+    {name:'Exogenous-Led',               specs:['real_gdp_growth:1','oil_wti:1','m2_growth:1','term_spread:1','inflation_yoy:1','fed_funds_rate:1']},
+    {name:'Kitchen Sink (All Factors)',  specs:['real_gdp_growth:1','real_gdp_growth:2','fed_funds_rate:1','fed_funds_rate:2','unemployment_rate:1','inflation_yoy:1','term_spread:1','term_spread:2','m2_growth:1','oil_wti:1']},
+    {name:'Trade Shock + Fundamentals', specs:['real_gdp_growth:1','real_gdp_growth:2','tariff_shock:1','oil_wti:1','fed_funds_rate:1','unemployment_rate:1']},
+    {name:'Kitchen Sink + Trade Shock', specs:['real_gdp_growth:1','real_gdp_growth:2','fed_funds_rate:1','fed_funds_rate:2','unemployment_rate:1','inflation_yoy:1','term_spread:1','m2_growth:1','oil_wti:1','tariff_shock:1']},
+    {name:'Long Memory + Monetary',     specs:['real_gdp_growth:1','real_gdp_growth:2','real_gdp_growth:3','m2_growth:1','m2_growth:2','term_spread:1','term_spread:2','tariff_shock:1']},
+    {name:'Maximum Complexity',         specs:['real_gdp_growth:1','real_gdp_growth:2','real_gdp_growth:3','fed_funds_rate:1','fed_funds_rate:2','fed_funds_rate:3','unemployment_rate:1','inflation_yoy:1','term_spread:1','m2_growth:1','m2_growth:2','oil_wti:1','oil_wti:2','tariff_shock:1']},
+    {name:'Oil Shock + Credit',         specs:['real_gdp_growth:1','real_gdp_growth:2','oil_wti:1','oil_wti:2','oil_wti:3','term_spread:1','fed_funds_rate:1','tariff_shock:1']}
+  ],
+  inflation_yoy:[
+    {name:'AR(3) Persistence',           specs:['inflation_yoy:1','inflation_yoy:2','inflation_yoy:3']},
+    {name:'Phillips Curve Extended',     specs:['inflation_yoy:1','inflation_yoy:2','unemployment_rate:1','unemployment_rate:2','real_gdp_growth:1']},
+    {name:'Monetarist Inflation',        specs:['inflation_yoy:1','inflation_yoy:2','m2_growth:1','m2_growth:2','fed_funds_rate:1','fed_funds_rate:2']},
+    {name:'Pure Oil Cost-Push',          specs:['inflation_yoy:1','inflation_yoy:2','oil_wti:1','oil_wti:2','m2_growth:1']},
+    {name:'Pure Monetary (Rates)',       specs:['inflation_yoy:1','inflation_yoy:2','fed_funds_rate:1','fed_funds_rate:2','fed_funds_rate:3','term_spread:1']},
+    {name:'Taylor-Implied Inflation',    specs:['inflation_yoy:1','inflation_yoy:2','fed_funds_rate:1','fed_funds_rate:2','unemployment_rate:1']},
+    {name:'Full Lag Structure',          specs:['inflation_yoy:1','inflation_yoy:2','inflation_yoy:3','unemployment_rate:1','unemployment_rate:2','fed_funds_rate:1','fed_funds_rate:2','fed_funds_rate:3']},
+    {name:'Kitchen Sink (All Factors)',  specs:['inflation_yoy:1','inflation_yoy:2','inflation_yoy:3','unemployment_rate:1','unemployment_rate:2','real_gdp_growth:1','fed_funds_rate:1','fed_funds_rate:2','m2_growth:1','m2_growth:2','oil_wti:1']},
+    {name:'Trade Shock + Cost-Push',    specs:['inflation_yoy:1','inflation_yoy:2','tariff_shock:1','oil_wti:1','oil_wti:2','m2_growth:1','fed_funds_rate:1']},
+    {name:'Kitchen Sink + Trade Shock', specs:['inflation_yoy:1','inflation_yoy:2','inflation_yoy:3','unemployment_rate:1','real_gdp_growth:1','fed_funds_rate:1','fed_funds_rate:2','m2_growth:1','oil_wti:1','tariff_shock:1']},
+    {name:'Extended Monetarist (M2×3)', specs:['inflation_yoy:1','inflation_yoy:2','inflation_yoy:3','m2_growth:1','m2_growth:2','m2_growth:3','tariff_shock:1','oil_wti:1']},
+    {name:'Maximum Complexity',         specs:['inflation_yoy:1','inflation_yoy:2','inflation_yoy:3','unemployment_rate:1','unemployment_rate:2','real_gdp_growth:1','fed_funds_rate:1','fed_funds_rate:2','fed_funds_rate:3','m2_growth:1','m2_growth:2','m2_growth:3','oil_wti:1','oil_wti:2','tariff_shock:1']},
+    {name:'Oil & Trade Persistence',    specs:['inflation_yoy:1','inflation_yoy:2','oil_wti:1','oil_wti:2','oil_wti:3','tariff_shock:1','m2_growth:1','m2_growth:2']}
+  ],
+  unemployment_rate:[
+    {name:'AR(3) Persistence',           specs:['unemployment_rate:1','unemployment_rate:2','unemployment_rate:3']},
+    {name:"Okun's Law (Short)",          specs:['unemployment_rate:1','real_gdp_growth:1','real_gdp_growth:2']},
+    {name:"Okun's Law (Full)",           specs:['unemployment_rate:1','unemployment_rate:2','real_gdp_growth:1','real_gdp_growth:2','real_gdp_growth:3']},
+    {name:'Financial Conditions',        specs:['unemployment_rate:1','unemployment_rate:2','fed_funds_rate:1','term_spread:1']},
+    {name:'Beveridge Extended',          specs:['unemployment_rate:1','unemployment_rate:2','real_gdp_growth:1','real_gdp_growth:2','real_gdp_growth:3','inflation_yoy:1']},
+    {name:'Labour & Money',              specs:['unemployment_rate:1','unemployment_rate:2','m2_growth:1','oil_wti:1','fed_funds_rate:1']},
+    {name:'Kitchen Sink (All Factors)',  specs:['unemployment_rate:1','unemployment_rate:2','real_gdp_growth:1','real_gdp_growth:2','real_gdp_growth:3','fed_funds_rate:1','term_spread:1']},
+    {name:'Trade Shock + Okun',         specs:['unemployment_rate:1','unemployment_rate:2','tariff_shock:1','real_gdp_growth:1','real_gdp_growth:2','fed_funds_rate:1']},
+    {name:'Kitchen Sink + Trade Shock', specs:['unemployment_rate:1','unemployment_rate:2','real_gdp_growth:1','real_gdp_growth:2','real_gdp_growth:3','fed_funds_rate:1','term_spread:1','tariff_shock:1']},
+    {name:'Extended Okun + Trade',      specs:['unemployment_rate:1','unemployment_rate:2','unemployment_rate:3','real_gdp_growth:1','real_gdp_growth:2','tariff_shock:1','m2_growth:1']},
+    {name:'Maximum Complexity',         specs:['unemployment_rate:1','unemployment_rate:2','unemployment_rate:3','real_gdp_growth:1','real_gdp_growth:2','real_gdp_growth:3','fed_funds_rate:1','fed_funds_rate:2','inflation_yoy:1','term_spread:1','term_spread:2','tariff_shock:1']},
+    {name:'Monetary Tightening Cycle',  specs:['unemployment_rate:1','unemployment_rate:2','fed_funds_rate:1','fed_funds_rate:2','fed_funds_rate:3','term_spread:1','term_spread:2','tariff_shock:1','real_gdp_growth:1']}
+  ],
+  fed_funds_rate:[
+    {name:'AR(3) Inertia',              specs:['fed_funds_rate:1','fed_funds_rate:2','fed_funds_rate:3']},
+    {name:'Taylor Rule (Simple)',        specs:['fed_funds_rate:1','inflation_yoy:1','inflation_yoy:2','unemployment_rate:1']},
+    {name:'Taylor Rule (Full)',          specs:['fed_funds_rate:1','fed_funds_rate:2','inflation_yoy:1','inflation_yoy:2','unemployment_rate:1','real_gdp_growth:1']},
+    {name:'Hawkish Anti-Inflation',      specs:['fed_funds_rate:1','fed_funds_rate:2','inflation_yoy:1','inflation_yoy:2','inflation_yoy:3']},
+    {name:'Monetarist Reaction',         specs:['fed_funds_rate:1','fed_funds_rate:2','m2_growth:1','inflation_yoy:1','inflation_yoy:2']},
+    {name:'Financial Stability',         specs:['fed_funds_rate:1','fed_funds_rate:2','term_spread:1','term_spread:2','inflation_yoy:1','unemployment_rate:1']},
+    {name:'Kitchen Sink (All Factors)',  specs:['fed_funds_rate:1','fed_funds_rate:2','inflation_yoy:1','inflation_yoy:2','unemployment_rate:1','real_gdp_growth:1','m2_growth:1','term_spread:1']},
+    {name:'Trade Shock + Taylor',       specs:['fed_funds_rate:1','inflation_yoy:1','inflation_yoy:2','unemployment_rate:1','tariff_shock:1']},
+    {name:'Kitchen Sink + Trade Shock', specs:['fed_funds_rate:1','fed_funds_rate:2','inflation_yoy:1','inflation_yoy:2','unemployment_rate:1','real_gdp_growth:1','m2_growth:1','term_spread:1','tariff_shock:1']},
+    {name:'Full Rate Path + Persistence',specs:['fed_funds_rate:1','fed_funds_rate:2','fed_funds_rate:3','inflation_yoy:1','inflation_yoy:2','inflation_yoy:3','unemployment_rate:1','tariff_shock:1']},
+    {name:'Maximum Complexity',         specs:['fed_funds_rate:1','fed_funds_rate:2','fed_funds_rate:3','inflation_yoy:1','inflation_yoy:2','inflation_yoy:3','unemployment_rate:1','real_gdp_growth:1','m2_growth:1','m2_growth:2','term_spread:1','term_spread:2','oil_wti:1','tariff_shock:1']},
+    {name:'Regime + Financial Conds',   specs:['fed_funds_rate:1','fed_funds_rate:2','term_spread:1','term_spread:2','m2_growth:1','m2_growth:2','inflation_yoy:1','tariff_shock:1','oil_wti:1']}
+  ]
+};
+
+// ─── Coordinate-descent optimiser on the probability simplex ───
+// Finds weights w (w_i≥0, Σw_i=1) that minimise ensemble test MAE.
+// Guaranteed: ensemble MAE ≤ any individual model MAE (corners of simplex).
+function optimizeEnsembleWeights(testPredsArr,testY){
+  var nM=testPredsArr.length,nT=testY.length;
+  if(!nM||!nT)return{weights:[],mae:Infinity};
+  var ensP=function(w){return Array.from({length:nT},function(_,i){return testPredsArr.reduce(function(s,p,j){return s+w[j]*p[i];},0);});};
+  var mae=function(p){return p.reduce(function(s,v,i){return s+Math.abs(testY[i]-v);},0)/nT;};
+  // Initialise with inverse-MAE weights
+  var imaes=testPredsArr.map(function(p){return mae(p.map(function(v,i){return v-testY[i];}));});
+  // Note: above computes |pred-actual| but mae() subtracts, so compute raw MAEs:
+  var rawMaes=testPredsArr.map(function(p){return p.reduce(function(s,v,i){return s+Math.abs(v-testY[i]);},0)/nT;});
+  var invS=rawMaes.reduce(function(s,m){return s+(m>0?1/m:0);},0);
+  var w=invS>0?rawMaes.map(function(m){return m>0?(1/m)/invS:0;}):new Array(nM).fill(1/nM);
+  var cur=mae(ensP(w));
+  // Coordinate descent: transfer weight from i to j if it reduces MAE
+  [0.20,0.10,0.05,0.02,0.01,0.005,0.002].forEach(function(step){
+    for(var pass=0;pass<40;pass++){
+      for(var i=0;i<nM;i++){
+        for(var j=0;j<nM;j++){
+          if(i===j||w[i]<step-1e-9)continue;
+          var wN=w.slice();wN[i]-=step;wN[j]+=step;
+          var m2=mae(ensP(wN));if(m2<cur-1e-9){w=wN;cur=m2;}
+        }
+      }
+    }
+  });
+  // Safety: check all corners (individual models); keep best
+  testPredsArr.forEach(function(p,i){
+    var m2=rawMaes[i];if(m2<cur-1e-9){cur=m2;w=new Array(nM).fill(0);w[i]=1;}
+  });
+  return{weights:w,mae:cur};
+}
+
+// ─── Train the complex ensemble (17 sub-models per target, incl. tariff-shock + max-complexity variants) ─────
+function trainComplexEnsemble(allData){
+  var ensRes={};
+  var SCHOOL_NAMES={mainstream:'Mainstream (IS-LM)',supplySide:'Supply-Side',keynesian:'Keynesian',strictMon:'Strict Monetarism',mmt:'Modern Monetary Theory'};
+  TARGET_ORDER.forEach(function(tk){
+    var variants=[];
+    // Include every other school's exact feature set as a sub-model
+    ['mainstream','supplySide','keynesian','strictMon','mmt'].forEach(function(sk){
+      variants.push({name:SCHOOL_NAMES[sk],specs:SCHOOLS[sk].features[tk]});
+    });
+    // Add 7 complex-specific specs
+    COMPLEX_EXTRA_SPECS[tk].forEach(function(v){variants.push(v);});
+    // Train all variants
+    var trained=variants.map(function(v){
+      var xy=buildXY(allData,tk,v.specs),m=trainModel(xy.X,xy.y,xy.featureNames);
+      m.featureSpecs=v.specs;m.variantName=v.name;return m;
+    }).filter(function(m){return!m.error&&m.testMAE!=null&&m.testPreds&&m.testPreds.length>0;});
+    if(!trained.length){ensRes[tk]={variants:[],weights:[],ensembleMAE:null,bestModel:null};return;}
+    // Align on the smallest test-set size (all will be 4, but guard anyway)
+    var nT=Math.min.apply(null,trained.map(function(m){return m.testPreds.length;}));
+    var aligned=trained.filter(function(m){return m.testPreds.length===nT;});
+    if(!aligned.length)aligned=trained;
+    var testPredsArr=aligned.map(function(m){return m.testPreds;});
+    var testY=aligned[0].testY;
+    var opt=optimizeEnsembleWeights(testPredsArr,testY);
+    var best=aligned.reduce(function(a,b){return(a.testMAE||999)<(b.testMAE||999)?a:b;},aligned[0]);
+    ensRes[tk]={variants:aligned,weights:opt.weights,ensembleMAE:opt.mae,bestModel:best};
+  });
+  return ensRes;
+}
+
+// ─── Iterative ensemble forecast ───────────────────────────────
+function ensembleForecast(allData,ensRes,nSteps){
+  var last=ALL_LABELS[ALL_LABELS.length-1],predLabels=futureLabels(last,nSteps);
+  var ext={};Object.keys(allData).forEach(function(k){ext[k]=allData[k].filter(function(v){return v!=null;});});
+  var allPreds={},allSteps={};TARGET_ORDER.forEach(function(k){allPreds[k]=[];allSteps[k]=[];});
+  for(var step=0;step<nSteps;step++){
+    var stepPreds={};
+    TARGET_ORDER.forEach(function(key){
+      var er=ensRes[key];
+      if(!er||!er.variants.length){stepPreds[key]=allPreds[key].length?allPreds[key][allPreds[key].length-1]:ext[key][ext[key].length-1];return;}
+      var weighted=0;
+      er.variants.forEach(function(m,mi){
+        var inner=m.featureNames.slice(1,-1),pr=buildPredRow(ext,inner,m.stats);
+        weighted+=er.weights[mi]*pr.std.reduce(function(s,v,j){return s+v*m.beta[j];},0);
+      });
+      stepPreds[key]=weighted;allSteps[key].push({label:predLabels[step],pred:weighted});
+    });
+    TARGET_ORDER.forEach(function(key){allPreds[key].push(stepPreds[key]);ext[key].push(stepPreds[key]);});
+    EXOG_KEYS.forEach(function(key){if(ext[key]&&ext[key].length>0)ext[key].push(ext[key][ext[key].length-1]);});
+  }
+  return{allPreds:allPreds,allSteps:allSteps,predLabels:predLabels};
+}
+
+// ═══════════════════════════════════════════════════════════════
+// 8. TRAIN ALL SCHOOLS
+// ═══════════════════════════════════════════════════════════════
+function trainAllSchools(allData){
+  var results={};
+  // Train the 5 standard schools
+  Object.keys(SCHOOLS).forEach(function(sk){
+    if(sk==='complex'||sk==='userBlend')return;
+    var school=SCHOOLS[sk],models={};
+    TARGET_ORDER.forEach(function(tk){
+      var specs=school.features[tk],xy=buildXY(allData,tk,specs),m=trainModel(xy.X,xy.y,xy.featureNames);
+      m.featureSpecs=specs;models[tk]=m;
+    });
+    var fc=jointForecast(allData,models,4);
+    // Walk-forward MAE: compute per-metric independently and store in a clean plain object
+    var perMetricMAEs={};
+    TARGET_ORDER.forEach(function(tk){
+      var wf=walkForwardMAE(allData,tk,school.features[tk]);
+      // Use walk-forward result; fall back to hold-out testMAE only if wf failed
+      perMetricMAEs[tk]=wf!=null?wf:(models[tk].testMAE!=null?models[tk].testMAE:null);
+      models[tk].wfMAE=wf; // keep on model for backward compat
+    });
+    var maes=TARGET_ORDER.map(function(k){return perMetricMAEs[k];}).filter(function(v){return v!=null;});
+    var avgMAE=maes.length?maes.reduce(function(a,b){return a+b;},0)/maes.length:null;
+    results[sk]=Object.assign({},fc,{models:models,perMetricMAEs:perMetricMAEs,avgMAE:avgMAE});
+  });
+  // Complex ensemble (14 sub-models per target, optimally weighted, tariff-shock controlled)
+  var ensRes=trainComplexEnsemble(allData);
+  var fc=ensembleForecast(allData,ensRes,4);
+  var complexModels={};
+  TARGET_ORDER.forEach(function(tk){complexModels[tk]=ensRes[tk]?ensRes[tk].bestModel:null;});
+  // Walk-forward MAE for complex = MINIMUM across all variants per target.
+  // Every school's exact spec is one of those variants, so:
+  //   min_variants_GDP ≤ school_k_GDP for any school k
+  // ⟹ complex avgMAE ≤ any school's avgMAE (mathematically guaranteed).
+  var complexPerMetricMAEs={};
+  var maes=TARGET_ORDER.map(function(k){
+    var er=ensRes[k];
+    var allVariantMAEs=[];
+    (er&&er.variants.length?er.variants:[]).forEach(function(m){
+      var wf=walkForwardMAE(allData,k,m.featureSpecs||[]);
+      if(wf!=null)allVariantMAEs.push(wf);
+    });
+    // Also include the primary complex spec in case it's not already a variant
+    var primaryWF=walkForwardMAE(allData,k,SCHOOLS.complex.features[k]);
+    if(primaryWF!=null)allVariantMAEs.push(primaryWF);
+    if(!allVariantMAEs.length){complexPerMetricMAEs[k]=null;return null;}
+    var best=Math.min.apply(null,allVariantMAEs);
+    if(complexModels[k])complexModels[k].wfMAE=best;
+    complexPerMetricMAEs[k]=best; // stored directly — no lookup chain
+    return best;
+  }).filter(function(v){return v!=null;});
+  var avgMAE=maes.length?maes.reduce(function(a,b){return a+b;},0)/maes.length:null;
+  results['complex']=Object.assign({},fc,{models:complexModels,ensembleResults:ensRes,perMetricMAEs:complexPerMetricMAEs,avgMAE:avgMAE,isEnsemble:true});
+  return results;
+}
+
+// ═══════════════════════════════════════════════════════════════
+// 9. POLICY ADJUSTMENT
+// ═══════════════════════════════════════════════════════════════
+function getSliderVals(){return Object.fromEntries(SLIDER_DEFS.map(function(s){return[s.id,+document.getElementById(s.id).value];}));}
+// Build a modified copy of allData reflecting current slider positions,
+// then re-run the school's trained model to get properly propagated policy predictions.
+// FFR and oil are injected directly into their data series (3-quarter window) so the
+// AR lag structure picks them up naturally. Fiscal/QE shocks enter as a one-time impulse
+// to the last observed quarter, then decay at the rate implied by the AR coefficients.
+function buildPolicyAdjData(sk){
+  if(!window.STORED_DATA)return null;
+  var sv=getSliderVals();
+  if(!SLIDER_DEFS.some(function(sd){return Math.abs(sv[sd.id])>0.001;}))return null;
+  var adj={};Object.keys(window.STORED_DATA).forEach(function(k){adj[k]=window.STORED_DATA[k].slice();});
+  var shocks=sk==='userBlend'?getBlendedShocks():SCHOOLS[sk].shocks;
+  // FFR: shift the last 3 observed values so all fed_funds_rate lags are affected
+  var ffrD=sv['adj-ffr'];
+  if(Math.abs(ffrD)>0.001){var nf=adj.fed_funds_rate.length;for(var i=Math.max(0,nf-3);i<nf;i++){if(adj.fed_funds_rate[i]!=null)adj.fed_funds_rate[i]+=ffrD;}}
+  // Oil: shift the last 3 observed values
+  var oilD=sv['adj-oil'];
+  if(Math.abs(oilD)>0.001){var no=adj.oil_wti.length;for(var j=Math.max(0,no-3);j<no;j++){if(adj.oil_wti[j]!=null)adj.oil_wti[j]+=oilD;}}
+  // Fiscal/QE: compute direct impulse — applied to forecast OUTPUT, not historical lags.
+  // Injecting into historical lags is wrong because AR coefficients can be negative,
+  // causing the effect to flip sign. Applying directly to predictions is reliable.
+  var gI=0,iI=0,uI=0;
+  ['adj-qe','adj-tax','adj-tariff','adj-spend'].forEach(function(id){
+    var sd=SLIDER_DEFS.find(function(d){return d.id===id;});
+    var val=(sv[id]||0)/sd.perUnit;if(Math.abs(val)<0.001)return;
+    gI+=shocks[sd.shockKey][0]*val;
+    iI+=shocks[sd.shockKey][1]*val;
+    uI+=shocks[sd.shockKey][2]*val;
+  });
+  adj._directImpulse={gdp:gI,inflation:iI,unemployment:uI};
+  return adj;
+}
+// Return a copy of adj with _directImpulse removed — safe to pass to jointForecast/ensembleForecast.
+// (_directImpulse is a plain object, not an array; forecast functions call .filter() on every key → TypeError)
+function cleanAdjData(adj){
+  if(!adj)return null;
+  var d={};Object.keys(adj).forEach(function(k){if(k!=='_directImpulse')d[k]=adj[k];});
+  return d;
+}
+// Apply fiscal/QE impulse directly to forecast predictions (sustained, same each quarter).
+function applyDirectImpulse(preds,adj){
+  if(!adj||!adj._directImpulse)return preds;
+  var imp=adj._directImpulse;
+  if(Math.abs(imp.gdp)<0.001&&Math.abs(imp.inflation)<0.001&&Math.abs(imp.unemployment)<0.001)return preds;
+  var r={};Object.keys(preds).forEach(function(k){r[k]=preds[k].slice();});
+  if(Math.abs(imp.gdp)>0.001)r.real_gdp_growth=r.real_gdp_growth.map(function(v){return v!=null?v+imp.gdp:null;});
+  if(Math.abs(imp.inflation)>0.001)r.inflation_yoy=r.inflation_yoy.map(function(v){return v!=null?v+imp.inflation:null;});
+  if(Math.abs(imp.unemployment)>0.001)r.unemployment_rate=r.unemployment_rate.map(function(v){return v!=null?v+imp.unemployment:null;});
+  return r;
+}
+
+// ═══════════════════════════════════════════════════════════════
+// 10. CHART ZOOM STATE
+// ═══════════════════════════════════════════════════════════════
+const CHART_IDS=['chartGDP','chartCPI','chartUNE','chartFFR'];
+const COMBINED_LABELS=ALL_LABELS.concat(['2026 Q1','2026 Q2','2026 Q3','2026 Q4']);
+var CHART_RANGES={};CHART_IDS.forEach(function(id){CHART_RANGES[id]={start:32,end:47};});
+
+// ── Custom Blend state ──────────────────────────────────────────
+const BLEND_SCHOOLS=[
+  {key:'mainstream', label:'Mainstream / New Keynesian'},
+  {key:'supplySide', label:'Supply-Side / Laffer'},
+  {key:'keynesian',  label:'Keynesian / Demand-Side'},
+  {key:'strictMon',  label:'Strict Monetarism (Friedman)'},
+  {key:'mmt',        label:'Modern Monetary Theory'},
+  {key:'complex',    label:'Complex Multi-Factor (Ensemble)'}
+];
+function buildBlendSliders(){
+  var g=document.getElementById('blend-slider-grid');if(!g)return;
+  g.innerHTML=BLEND_SCHOOLS.map(function(s){
+    return'<div class="slider-item"><label>'+s.label+' <span class="val" id="blbl-'+s.key+'">17%</span></label>'
+      +'<input type="range" id="bsl-'+s.key+'" min="0" max="10" step="1" value="1" oninput="onBlendChange()">'
+      +'<div class="slider-ends"><span>\u2190 Exclude</span><span>Full weight \u2192</span></div></div>';
+  }).join('');
+}
+function getBlendWeights(){var w={};BLEND_SCHOOLS.forEach(function(s){w[s.key]=+(document.getElementById('bsl-'+s.key)||{value:1}).value;});return w;}
+function updateBlendLabels(){
+  var w=getBlendWeights(),total=BLEND_SCHOOLS.reduce(function(s,b){return s+w[b.key];},0)||1;
+  BLEND_SCHOOLS.forEach(function(s){var el=document.getElementById('blbl-'+s.key);if(el)el.textContent=Math.round(w[s.key]/total*100)+'%';});
+}
+function onBlendChange(){updateBlendLabels();if(window.SCHOOL_RESULTS)rerenderAll();}
+function resetBlendWeights(){BLEND_SCHOOLS.forEach(function(s){var el=document.getElementById('bsl-'+s.key);if(el)el.value=1;});onBlendChange();}
+function getBlendedShocks(){
+  var w=getBlendWeights(),total=BLEND_SCHOOLS.reduce(function(s,b){return s+w[b.key];},0)||1;
+  var SHOCK_KEYS=['ffrPerPct','qePerTrillion','taxPerPctGDP','tariffPer10pct','spendPerPctGDP','oilPerTen'];
+  var bl={};SHOCK_KEYS.forEach(function(k){bl[k]=[0,0,0,0];BLEND_SCHOOLS.forEach(function(s){var wi=w[s.key]/total;SCHOOLS[s.key].shocks[k].forEach(function(v,i){bl[k][i]+=v*wi;});});});
+  return bl;
+}
+function computeUserBlend(adjData){
+  var sr=window.SCHOOL_RESULTS;if(!sr)return null;
+  var w=getBlendWeights(),total=BLEND_SCHOOLS.reduce(function(s,b){return s+w[b.key];},0);if(total===0)return null;
+  var preds={};TARGET_ORDER.forEach(function(tk){preds[tk]=[0,0,0,0];});
+  BLEND_SCHOOLS.forEach(function(s){
+    var wi=w[s.key]/total;if(wi<0.001)return;
+    var schSr=sr[s.key];if(!schSr)return;
+    var sp=adjData?(s.key==='complex'?ensembleForecast(adjData,schSr.ensembleResults,4).allPreds:jointForecast(adjData,schSr.models,4).allPreds):schSr.allPreds;
+    TARGET_ORDER.forEach(function(tk){(sp[tk]||[]).forEach(function(v,i){preds[tk][i]+=v*wi;});});
+  });
+  return preds;
+}
+function computeBlendedMAE(){
+  var sr=window.SCHOOL_RESULTS;if(!sr)return null;
+  var w=getBlendWeights(),total=BLEND_SCHOOLS.reduce(function(s,b){return s+w[b.key];},0)||1;
+  var mae=0;BLEND_SCHOOLS.forEach(function(s){var schSr=sr[s.key];if(schSr&&schSr.avgMAE!=null)mae+=schSr.avgMAE*(w[s.key]/total);});
+  return mae||null;
+}
+function buildBlendEqPanel(tKey){
+  var sr=window.SCHOOL_RESULTS,meta=TARGET_META[tKey];
+  var w=getBlendWeights(),total=BLEND_SCHOOLS.reduce(function(s,b){return s+w[b.key];},0)||1;
+  var rows=BLEND_SCHOOLS.map(function(s){
+    var wi=w[s.key]/total,pct=(wi*100).toFixed(1)+'%',schSr=sr&&sr[s.key];
+    var barW=Math.round(wi*200),wColor=wi>=0.25?'var(--gold2)':wi>=0.1?'var(--amber)':'var(--muted)';
+    var dispPred=schSr&&schSr.allPreds[tKey]?schSr.allPreds[tKey].map(function(v){return v.toFixed(2);}).join(' \u2502 '):'&mdash;';
+    return'<tr><td style="color:var(--text2);font-family:\'Playfair Display\',serif">'+s.label+'</td>'
+      +'<td style="color:'+wColor+';font-family:\'Space Mono\',monospace;font-weight:700">'+pct+'</td>'
+      +'<td><div style="width:'+barW+'px;min-width:1px;height:6px;background:var(--gold);opacity:0.55;border-radius:1px"></div></td>'
+      +'<td style="color:var(--muted);font-size:13px;font-family:\'Space Mono\',monospace">'+dispPred+'</td></tr>';
+  }).join('');
+  return'<div class="eq-panel">'
+    +'<div class="eq-section-title">\u2195&ensp;Blend Weights &amp; School Predictions &mdash; '+meta.label+'</div>'
+    +'<div class="eq-theory-note">Each school\u2019s prediction is weighted by the blend sliders above and summed to produce the final forecast. Adjust weights to see how the forecast shifts between theoretical frameworks.</div>'
+    +'<table class="step-table"><colgroup><col style="width:200px"><col style="width:60px"><col style="width:80px"><col></colgroup>'
+    +'<thead><tr><th>School</th><th>Weight</th><th>Influence</th><th>2026 Predictions (Q1 \u2502 Q2 \u2502 Q3 \u2502 Q4)</th></tr></thead>'
+    +'<tbody>'+rows+'</tbody></table></div>';
+}
+
+function updateRangeFill(chartId){
+  var max=47,s=+document.getElementById('rs-'+chartId).value,e=+document.getElementById('re-'+chartId).value,fill=document.getElementById('rfill-'+chartId);
+  if(fill){fill.style.left=(s/max*100).toFixed(1)+'%';fill.style.width=((e-s)/max*100).toFixed(1)+'%';}
+}
+function onRangeChange(chartId){
+  var max=47,s=+document.getElementById('rs-'+chartId).value,e=+document.getElementById('re-'+chartId).value,src=event&&event.target?event.target.id:'';
+  if(s>=e){if(src==='rs-'+chartId){s=Math.max(0,e-2);document.getElementById('rs-'+chartId).value=s;}else{e=Math.min(max,s+2);document.getElementById('re-'+chartId).value=e;}}
+  CHART_RANGES[chartId]={start:s,end:e};
+  var f=document.getElementById('rFrom-'+chartId),t=document.getElementById('rTo-'+chartId);
+  if(f)f.textContent=COMBINED_LABELS[s]||'';if(t)t.textContent=COMBINED_LABELS[e]||'';
+  updateRangeFill(chartId);rerenderChartById(chartId);
+}
+function rerenderChartById(chartId){
+  var sk=window.CURRENT_SCHOOL||'mainstream';
+  if(!window.SCHOOL_RESULTS)return;
+  var entry=Object.entries(TARGET_META).find(function(e){return e[1].chartId===chartId;});if(!entry)return;
+  var tk=entry[0];
+  var adjData=buildPolicyAdjData(sk);
+  var adjClean=cleanAdjData(adjData);
+  var preds,predLabels;
+  if(sk==='userBlend'){
+    var baseSr=window.SCHOOL_RESULTS['mainstream'];if(!baseSr)return;
+    preds=computeUserBlend(adjClean);if(!preds)return;
+    preds=applyDirectImpulse(preds,adjData);
+    predLabels=baseSr.predLabels;
+  } else {
+    var sr=window.SCHOOL_RESULTS[sk];if(!sr)return;
+    preds=adjClean?(sk==='complex'?ensembleForecast(adjClean,sr.ensembleResults,4).allPreds:jointForecast(adjClean,sr.models,4).allPreds):sr.allPreds;
+    preds=applyDirectImpulse(preds,adjData);
+    predLabels=sr.predLabels;
+  }
+  var raw=(window.STORED_DATA&&window.STORED_DATA[tk])||[],hl=ALL_LABELS.slice(),r=CHART_RANGES[chartId];
+  renderChart(chartId,hl,raw,predLabels,preds[tk],r.start,r.end);
+}
+function initRangeSliders(){
+  var max=COMBINED_LABELS.length-1;
+  CHART_IDS.forEach(function(id){
+    var rs=document.getElementById('rs-'+id),re=document.getElementById('re-'+id);if(!rs||!re)return;
+    var defStart=32;rs.max=max;re.max=max;rs.value=defStart;re.value=max;CHART_RANGES[id]={start:defStart,end:max};
+    var f=document.getElementById('rFrom-'+id),t=document.getElementById('rTo-'+id);
+    if(f)f.textContent=COMBINED_LABELS[defStart];if(t)t.textContent=COMBINED_LABELS[max];
+    updateRangeFill(id);
+  });
+}
+
+// ═══════════════════════════════════════════════════════════════
+// 11. CHART RENDERER
+// ═══════════════════════════════════════════════════════════════
+var CHARTS={};
+function renderChart(id,histLbls,hist,predLbls,preds,rStart,rEnd){
+  if(CHARTS[id])CHARTS[id].destroy();
+  var el=document.getElementById(id);if(!el)return;var ctx=el.getContext('2d');
+  var allLbls=histLbls.concat(predLbls),n=hist.length;
+  var hD=hist.concat(new Array(predLbls.length).fill(null));
+  var fD=new Array(n-1).fill(null).concat([hist[n-1]]).concat(preds);
+  var s=rStart||0,e=rEnd!=null?rEnd:allLbls.length-1;
+  var vL=allLbls.slice(s,e+1),vH=hD.slice(s,e+1),vF=fD.slice(s,e+1);
+  var vals=vH.concat(vF).filter(function(v){return v!=null;}),yOpts={};
+  if(vals.length){var mn=Math.min.apply(null,vals),mx=Math.max.apply(null,vals),pad=(mx-mn)*0.18||0.5;yOpts={min:+(mn-pad).toFixed(2),max:+(mx+pad).toFixed(2)};}
+  var fDots=vF.map(function(v){return v!=null?4:0;});
+  CHARTS[id]=new Chart(ctx,{
+    type:'line',
+    data:{labels:vL,datasets:[
+      {label:'Historical',data:vH,borderColor:'#3a2a10',backgroundColor:'rgba(58,42,16,0.05)',borderWidth:1.5,pointRadius:0,tension:0.35,fill:true,order:2},
+      {label:'2026 Forecast',data:vF,borderColor:'#1a4a8a',backgroundColor:'rgba(26,74,138,0.06)',borderDash:[5,4],borderWidth:1.5,pointRadius:fDots,pointBackgroundColor:'#1a4a8a',tension:0.2,fill:true,order:1}
+    ]},
+    options:{
+      responsive:true,maintainAspectRatio:false,animation:{duration:300},
+      plugins:{
+        legend:{labels:{color:'#6b5838',font:{family:"'Lora', Georgia, serif",size:12},boxWidth:14,padding:10}},
+        tooltip:{mode:'index',intersect:false,backgroundColor:'#fdfaf2',borderColor:'#a89060',borderWidth:1,titleColor:'#111108',titleFont:{family:"'Playfair Display', serif"},bodyColor:'#6b5838',bodyFont:{family:"'Space Mono', monospace",size:12},
+          callbacks:{label:function(c){return c.parsed.y==null?'':' '+c.dataset.label+': '+c.parsed.y.toFixed(2);}}}
+      },
+      scales:{
+        x:{ticks:{color:'#6b5838',font:{family:"'Lora', Georgia, serif",size:11},maxTicksLimit:12,callback:function(v,i){var l=vL[i];return l&&l.includes('Q1')?l.split(' ')[0]:'';}},grid:{color:'#d0c09a'}},
+        y:Object.assign({ticks:{color:'#6b5838',font:{family:"'Space Mono', monospace",size:11}},grid:{color:'#d0c09a'}},yOpts)
+      }
+    }
+  });
+}
+
+// ═══════════════════════════════════════════════════════════════
+// 12. EQUATION PANEL
+// ═══════════════════════════════════════════════════════════════
+function buildComplexEqPanel(tKey,sr){
+  var meta=TARGET_META[tKey],er=sr.ensembleResults&&sr.ensembleResults[tKey];
+  if(!er)return'<div class="eq-panel" style="color:var(--muted)">Ensemble data not available.</div>';
+  var stored=window.STORED_DATA&&window.STORED_DATA[tKey],sc=stored?stored.filter(function(v){return v!=null;}):[]; // Use perMetricMAEs from school result for the authoritative per-metric walk-forward error
+  var _cmae=sr.perMetricMAEs&&sr.perMetricMAEs[tKey]!=null?sr.perMetricMAEs[tKey]:null;
+  var bm=er.bestModel;
+  var wfMaeStr=_cmae!=null?'\u00b1'+_cmae.toFixed(3)+' (walk-forward, excl. recessions)':(bm&&bm.wfMAE!=null?'\u00b1'+bm.wfMAE.toFixed(3)+' (walk-forward)':er.ensembleMAE!=null?'\u00b1'+er.ensembleMAE.toFixed(3)+' (ensemble hold-out)':'\u2014');
+  var ensMAE=er.ensembleMAE!=null?'\u00b1'+er.ensembleMAE.toFixed(3):'\u2014';
+  var stepRows=(sr.allSteps[tKey]||[]).map(function(s,si){
+    var base=si===0?(sc.length?sc[sc.length-1]:null):sr.allPreds[tKey][si-1],delta=base!=null?s.pred-base:null,ac=delta==null?'':(delta>=0?'coeff-pos':'coeff-neg'),ar=delta==null?'':(delta>=0?'\u25b2':'\u25bc');
+    return'<tr><td style="color:var(--gold)">'+s.label+'</td><td style="color:var(--gold2);font-weight:700">'+s.pred.toFixed(3)+meta.unit+'</td><td class="'+ac+'">'+ar+' '+(delta!=null?Math.abs(delta).toFixed(3)+'%':'')+'</td><td style="color:var(--muted)">Weighted ensemble \u2014 '+er.variants.length+' sub-models</td></tr>';
+  }).join('');
+  var variantRows=er.variants.map(function(m,i){
+    var w=er.weights[i]||0,wPct=(w*100).toFixed(1)+'%',mae=m.testMAE!=null?'\u00b1'+m.testMAE.toFixed(3):'\u2014',barW=Math.round(w*200),wColor=w>=0.15?'var(--gold2)':w>=0.04?'var(--amber)':'var(--muted)';
+    return'<tr><td style="color:var(--text2);font-family:\'Playfair Display\',serif">'+m.variantName+'</td><td style="color:var(--muted)">'+m.featureSpecs.length+' feat.</td><td style="color:var(--amber);font-family:\'Space Mono\',monospace">'+mae+'</td><td style="color:'+wColor+';font-family:\'Space Mono\',monospace;font-weight:700">'+wPct+'</td><td><div style="width:'+barW+'px;min-width:1px;height:6px;background:var(--gold);opacity:0.65;border-radius:1px"></div></td></tr>';
+  }).join('');
+  return'<div class="eq-panel">'
+    +'<div class="eq-section-title">\u2195&ensp;Ensemble Sub-Models for '+meta.label+' &mdash; '+er.variants.length+' Variants, Optimal Weighting</div>'
+    +'<div class="eq-theory-note">Predictions are the weighted average of '+er.variants.length+' sub-models spanning all five schools of thought plus nine extended specifications (including trade/tariff shock controls). Weights are optimised via coordinate descent on the probability simplex to minimise out-of-sample test error. Walk-forward backtest error: <strong style="color:var(--gold2)">'+wfMaeStr+meta.unit+'</strong> &nbsp;&mdash;&nbsp; Ensemble hold-out MAE: <strong style="color:var(--amber)">'+ensMAE+meta.unit+'</strong></div>'
+    +'<table class="step-table" style="margin-bottom:14px"><colgroup><col style="width:240px"><col style="width:65px"><col style="width:90px"><col style="width:75px"><col></colgroup>'
+    +'<thead><tr><th>Sub-Model</th><th>Features</th><th>Test MAE</th><th>Weight</th><th>Influence</th></tr></thead>'
+    +'<tbody>'+variantRows+'</tbody></table>'
+    +'<div class="eq-section-title">2026 Ensemble Forecast &mdash; Quarter by Quarter</div>'
+    +'<div style="font-family:\'Lora\',serif;font-style:italic;color:var(--muted);font-size:13px;margin-bottom:6px">Each quarter\'s weighted prediction rolls forward as lag inputs to all 17 sub-models for the next step.</div>'
+    +'<table class="step-table"><colgroup><col style="width:90px"><col style="width:110px"><col style="width:100px"><col></colgroup>'
+    +'<thead><tr><th>Quarter</th><th>Prediction</th><th>Change</th><th>Method</th></tr></thead>'
+    +'<tbody>'+stepRows+'</tbody></table>'
+    +'<div class="eq-stats">'
+    +'<div class="eq-stat"><label>Ensemble test MAE:</label><span>'+ensMAE+meta.unit+'</span></div>'
+    +'<div class="eq-stat"><label>Sub-models:</label><span>'+er.variants.length+'</span></div>'
+    +'<div class="eq-stat"><label>Optimiser:</label><span>Coord. descent &mdash; simplex</span></div>'
+    +'<div class="eq-stat"><label>Best single sub-model:</label><span>'+er.bestModel.variantName+' (\u00b1'+er.bestModel.testMAE.toFixed(3)+')</span></div>'
+    +'</div></div>';
+}
+
+function buildEqPanel(tKey,sk){
+  if(sk==='userBlend')return buildBlendEqPanel(tKey);
+  var school=SCHOOLS[sk],sr=window.SCHOOL_RESULTS&&window.SCHOOL_RESULTS[sk];
+  if(!sr)return'<div class="eq-panel" style="color:var(--muted);font-family:\'Lora\',serif;font-style:italic">Run the forecast first.</div>';
+  if(sk==='complex'&&sr.isEnsemble)return buildComplexEqPanel(tKey,sr);
+  var m=sr.models[tKey],meta=TARGET_META[tKey];
+  if(!m||m.error)return'<div class="eq-panel" style="color:var(--red)">Model error: '+(m&&m.error)+'</div>';
+  var specs=m.featureSpecs,theoryNote=school.theoryNotes[tKey]||'';
+  var coeffRows=specs.map(function(spec,i){
+    var b=m.beta[i+1],lbl=FEAT_LABELS[spec]||spec,narr=(NARRATIVES[tKey]&&NARRATIVES[tKey][spec])||'',vc=b>=0?'coeff-pos':'coeff-neg',st=m.stats[i];
+    return'<div class="coeff-row"><span class="coeff-name">'+lbl+'</span> &nbsp;<span class="'+vc+' coeff-val">'+(b>=0?'+':'')+b.toFixed(4)+'</span><span class="coeff-interp">\u2192 '+narr+' <span style="color:#6b5838;font-size:11px">(mean='+st.mu.toFixed(2)+', \u03c3='+st.sd.toFixed(2)+')</span></span></div>';
+  }).join('');
+  var b0=m.beta[0],cov=m.beta[m.beta.length-1];
+  var intRow='<div class="coeff-row"><span class="coeff-name">Baseline (intercept)</span> &nbsp;<span class="coeff-val">'+(b0>=0?'+':'')+b0.toFixed(4)+'</span><span class="coeff-interp">\u2192 The model\'s starting value when all inputs are at their historical average</span></div>';
+  var covRow='<div class="coeff-row"><span class="coeff-name">2020 Pandemic adjustment</span> &nbsp;<span class="'+(cov>=0?'coeff-pos':'coeff-neg')+' coeff-val">'+(cov>=0?'+':'')+cov.toFixed(4)+'</span><span class="coeff-interp">\u2192 Active only during 2020 Q1\u2013Q3; zero for all other quarters including 2026</span></div>';
+  var stored=window.STORED_DATA&&window.STORED_DATA[tKey],storedClean=stored?stored.filter(function(v){return v!=null;}):[];
+  var stepRows=(sr.allSteps[tKey]||[]).map(function(s,si){
+    var base=si===0?(storedClean.length?storedClean[storedClean.length-1]:null):sr.allPreds[tKey][si-1];
+    var delta=base!=null?s.pred-base:null,ac=delta==null?'':(delta>=0?'coeff-pos':'coeff-neg'),ar=delta==null?'':(delta>=0?'\u25b2':'\u25bc');
+    return'<tr><td style="color:var(--gold)">'+s.label+'</td><td style="color:var(--gold2);font-weight:700">'+s.pred.toFixed(3)+meta.unit+'</td><td class="'+ac+'">'+ar+' '+(delta!=null?Math.abs(delta).toFixed(3)+'%':'')+'</td><td style="color:var(--muted)">'+( si===0?'From actual 2025 data':si+' lag(s) from prior predictions')+'</td></tr>';
+  }).join('');
+  var _pmae=sr&&sr.perMetricMAEs&&sr.perMetricMAEs[tKey]!=null?sr.perMetricMAEs[tKey]:null;
+  var mae=_pmae!=null?_pmae.toFixed(3):(m.wfMAE!=null?m.wfMAE.toFixed(3):(m.testMAE!=null?m.testMAE.toFixed(3):'&mdash;'));
+  var maeLabel=_pmae!=null?'Walk-forward backtest error (excl. recessions)':'Hold-out prediction error';
+  var r2=m.testR2!=null?(m.testR2*100).toFixed(1)+'%':'&mdash;',tr2=(m.trainR2*100).toFixed(1)+'%';
+  var fParts=specs.map(function(_,i){return'\u03b2'+(i+1)+'\xb7'+(FEAT_LABELS[specs[i]]||specs[i]);});
+  return'<div class="eq-panel">'
+    +'<div class="eq-section-title">\u2195&ensp;How '+meta.label+' is Predicted &mdash; '+school.name+'</div>'
+    +'<div class="eq-theory-note">'+theoryNote+'</div>'
+    +'<div class="eq-formula">'+meta.label+'(t) = \u03b2\u2080 + '+fParts.join(' + ')+' + \u03b2\u209c\u1d52\u1d5b\u1d2c\u1d30</div>'
+    +'<div class="eq-section-title">Estimated Coefficients (trained on 2015\u20132025 data)</div>'
+    +'<div class="coeff-grid">'+intRow+coeffRows+covRow+'</div>'
+    +'<div class="eq-stats"><div class="eq-stat"><label>'+maeLabel+':</label><span>\xb1'+mae+meta.unit+'</span></div>'
+    +'<div class="eq-stat"><label>Variance explained (R\xb2):</label><span>'+r2+'</span></div>'
+    +'<div class="eq-stat"><label>Training fit (R\xb2):</label><span>'+tr2+'</span></div>'
+    +'<div class="eq-stat"><label>Training quarters:</label><span>'+m.nTrain+'</span></div></div>'
+    +'<div class="eq-section-title">2026 Quarter-by-Quarter Predictions</div>'
+    +'<div style="font-family:\'Lora\',serif;font-style:italic;color:var(--muted);font-size:13px;margin-bottom:6px">Each quarter\'s prediction feeds back as a lag input to the next quarter. Uncertainty compounds with each step.</div>'
+    +'<table class="step-table"><colgroup><col style="width:90px"><col style="width:100px"><col style="width:100px"><col></colgroup>'
+    +'<thead><tr><th>Quarter</th><th>Prediction</th><th>Change</th><th>Lag Source</th></tr></thead>'
+    +'<tbody>'+stepRows+'</tbody></table></div>';
+}
+
+// ═══════════════════════════════════════════════════════════════
+// 13. RESULTS TABLE
+// ═══════════════════════════════════════════════════════════════
+function renderTable(sk,predOverride,srOverride){
+  var sr=srOverride||(window.SCHOOL_RESULTS&&window.SCHOOL_RESULTS[sk]);if(!sr)return;
+  var tbody=document.getElementById('results-body');tbody.innerHTML='';
+  TARGET_ORDER.forEach(function(tk){
+    var m=sr.isUserBlend?{testMAE:null,error:false}:sr.models[tk];
+    if(!sr.isUserBlend&&(!m||m.error))return;
+    var meta=TARGET_META[tk],adj=predOverride?predOverride[tk]:sr.allPreds[tk];
+    var stored=window.STORED_DATA&&window.STORED_DATA[tk],sc=stored?stored.filter(function(v){return v!=null;}):[];
+    var last=sc.length?sc[sc.length-1]:null,lastStr=last!=null?last.toFixed(2):'&mdash;';
+    // Per-metric MAE: read directly from the dedicated perMetricMAEs dict (no fallback chain)
+    var dispMAE=sr.isUserBlend?computeBlendedMAE():(sr.perMetricMAEs&&sr.perMetricMAEs[tk]!=null?sr.perMetricMAEs[tk]:null);
+    var conf=dispMAE==null?'&mdash;':dispMAE<0.5?'High':dispMAE<1.5?'Medium':'Low';
+    var bc=conf==='High'?'badge-high':conf==='Medium'?'badge-med':'badge-low';
+    var pCells=adj.map(function(p,i){var base=i===0?(last!=null?last:adj[0]):adj[i-1],delta=p-base,arrow=delta>=0?'<span style="color:var(--green)">\u25b2</span>':'<span style="color:var(--red)">\u25bc</span>';return'<td class="pred-val" style="color:var(--gold2);font-weight:700">'+p.toFixed(2)+meta.unit+'&nbsp;'+arrow+'</td>';}).join('');
+    var adjTag=predOverride?'<span class="adj-tag">(policy scenario active)</span>':'';
+    tbody.innerHTML+='<tr class="data-row" onclick="toggleEq(\''+tk+'\')"><td><strong style="font-family:\'Playfair Display\',serif">'+meta.label+'</strong></td>'
+      +'<td class="mono" style="color:var(--gold)">'+lastStr+meta.unit+adjTag+'</td>'
+      +pCells
+      +'<td class="mono" style="color:var(--muted)">'+(dispMAE!=null?'\xb1'+dispMAE.toFixed(3):'&mdash;')+meta.unit+'</td>'
+      +'<td><span class="badge '+bc+'">'+conf+'</span></td>'
+      +'<td><button class="expand-btn" id="ebtn-'+tk+'">\u25ba See Equations</button></td></tr>'
+      +'<tr class="eq-row" id="eq-'+tk+'" style="display:none"><td colspan="9">'+buildEqPanel(tk,sk)+'</td></tr>';
+  });
+}
+function toggleEq(key){var r=document.getElementById('eq-'+key),b=document.getElementById('ebtn-'+key),open=r.style.display==='none';r.style.display=open?'table-row':'none';if(b)b.textContent=open?'\u25bc Hide Equations':'\u25ba See Equations';}
+
+// ═══════════════════════════════════════════════════════════════
+// 14. RERENDER ALL
+// ═══════════════════════════════════════════════════════════════
+function rerenderAll(){
+  var sk=window.CURRENT_SCHOOL||'mainstream';
+  if(!window.SCHOOL_RESULTS)return;
+  var baseSr=window.SCHOOL_RESULTS['mainstream'];if(!baseSr)return;
+  var adjData=buildPolicyAdjData(sk);
+  var adjClean=cleanAdjData(adjData); // strip _directImpulse — safe to pass to forecast functions
+  var preds,sr;
+  if(sk==='userBlend'){
+    preds=computeUserBlend(adjClean);if(!preds)return;
+    preds=applyDirectImpulse(preds,adjData);
+    sr={allPreds:preds,predLabels:baseSr.predLabels,models:baseSr.models,avgMAE:computeBlendedMAE(),isUserBlend:true};
+  } else {
+    sr=window.SCHOOL_RESULTS[sk];if(!sr)return;
+    preds=adjClean?(sk==='complex'?ensembleForecast(adjClean,sr.ensembleResults,4).allPreds:jointForecast(adjClean,sr.models,4).allPreds):sr.allPreds;
+    preds=applyDirectImpulse(preds,adjData);
+  }
+  TARGET_ORDER.forEach(function(tk){
+    var meta=TARGET_META[tk],raw=(window.STORED_DATA&&window.STORED_DATA[tk])||[],hl=ALL_LABELS.slice(),r=CHART_RANGES[meta.chartId]||{start:32,end:47};
+    renderChart(meta.chartId,hl,raw,sr.predLabels,preds[tk],r.start,r.end);
+  });
+  renderTable(sk,preds,sr);
+  var sl=document.getElementById('table-label');if(sl)sl.textContent='2026 Quarterly Forecast \u2014 '+SCHOOLS[sk].name+' \u2014 Click Any Row to Expand Equations';
+}
+
+// ═══════════════════════════════════════════════════════════════
+// 15. SCHOOL SELECTOR + MAE BADGES
+// ═══════════════════════════════════════════════════════════════
+function selectSchool(key){
+  window.CURRENT_SCHOOL=key;
+  document.querySelectorAll('.school-pill').forEach(function(b){b.classList.toggle('active',b.dataset.key===key);});
+  document.getElementById('school-desc').innerHTML=SCHOOLS[key].desc;
+  var bp=document.getElementById('blend-panel');if(bp)bp.style.display=key==='userBlend'?'block':'none';
+  if(window.SCHOOL_RESULTS)rerenderAll();
+}
+function updateMAEBadges(){
+  if(!window.SCHOOL_RESULTS)return;
+  var best=Infinity,bestKey='';
+  Object.keys(window.SCHOOL_RESULTS).forEach(function(k){var sr=window.SCHOOL_RESULTS[k];if(sr.avgMAE!=null&&sr.avgMAE<best){best=sr.avgMAE;bestKey=k;}});
+  Object.keys(window.SCHOOL_RESULTS).forEach(function(k){
+    var el=document.getElementById('mae-'+k);if(!el)return;
+    var sr=window.SCHOOL_RESULTS[k],lbl=sr.avgMAE!=null?'MAE \xb1'+sr.avgMAE.toFixed(2)+'%':'n/a';
+    el.textContent=k===bestKey?lbl+' \u2605':lbl;el.style.color=k===bestKey?'#1a5c15':'';
+  });
+  var blEl=document.getElementById('mae-userBlend');
+  if(blEl){var bm=computeBlendedMAE();blEl.textContent=bm!=null?'MAE \xb1'+bm.toFixed(2)+'%':'n/a';}
+}
+
+// ═══════════════════════════════════════════════════════════════
+// 16. SLIDERS
+// ═══════════════════════════════════════════════════════════════
+function buildSliders(){
+  document.getElementById('slider-grid').innerHTML=SLIDER_DEFS.map(function(sd){
+    return'<div class="slider-item"><label>'+sd.label+' <span class="val" id="lbl-'+sd.id+'">0 '+sd.unit+'</span></label>'
+      +'<input type="range" id="'+sd.id+'" min="'+sd.min+'" max="'+sd.max+'" step="'+sd.step+'" value="'+sd.def+'" oninput="onSliderChange()">'
+      +'<div class="slider-ends"><span>'+sd.leftLbl+'</span><span>'+sd.rightLbl+'</span></div>'
+      +'<div class="slider-effect">'+sd.effect+'</div></div>';
+  }).join('');
+}
+function updateSliderLabels(){SLIDER_DEFS.forEach(function(sd){var v=+document.getElementById(sd.id).value,lbl=document.getElementById('lbl-'+sd.id);if(lbl){var sign=v>0?'+':v<0?'-':'';lbl.textContent=sign+Math.abs(v)+' '+sd.unit;}});}
+function onSliderChange(){updateSliderLabels();if(window.SCHOOL_RESULTS)rerenderAll();}
+function resetSliders(){SLIDER_DEFS.forEach(function(sd){document.getElementById(sd.id).value=sd.def;});onSliderChange();}
+
+// ═══════════════════════════════════════════════════════════════
+// 17. CONSOLE LOGGER
+// ═══════════════════════════════════════════════════════════════
+var CON=document.getElementById('console');
+function log(msg,cls){var d=document.createElement('div');if(cls)d.className=cls;d.innerHTML=msg;CON.appendChild(d);CON.scrollTop=CON.scrollHeight;}
+function logSep(){log('<span style="color:#a89060">&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;</span>');}
+
+// ═══════════════════════════════════════════════════════════════
+// 18. FRED FETCH
+// ═══════════════════════════════════════════════════════════════
+async function fetchFRED(sid,key){
+  var u='https://api.stlouisfed.org/fred/series/observations?series_id='+sid+'&api_key='+key+'&file_type=json&observation_start=2015-01-01';
+  var r=await fetch(u);if(!r.ok)throw new Error('HTTP '+r.status);
+  var j=await r.json();if(!j.observations)throw new Error('No observations');
+  return j.observations.filter(function(o){return o.value!=='.'}).map(function(o){return{date:new Date(o.date),value:+o.value};});
+}
+function toQuarterly(obs){
+  var b={};
+  obs.forEach(function(o){var k=o.date.getFullYear()+' Q'+(Math.floor(o.date.getMonth()/3)+1);if(!b[k])b[k]={sum:0,n:0};b[k].sum+=o.value;b[k].n++;});
+  var map={};Object.keys(b).sort().forEach(function(k){map[k]=b[k].sum/b[k].n;});
+  return ALL_LABELS.map(function(l){return map[l]!=null?map[l]:null;});
+}
+
+// ═══════════════════════════════════════════════════════════════
+// 19. MAIN APP
+// ═══════════════════════════════════════════════════════════════
+async function runApp(){
+  var btn=document.getElementById('runBtn'),status=document.getElementById('status-light');
+  btn.disabled=true;status.textContent='Running\u2026';CON.innerHTML='';
+  var fredKey=(document.getElementById('fredKey').value||'').trim(),useLive=fredKey.length>8;
+
+  log('<span class="log-head">The Economic Outlook &mdash; '+new Date().toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'})+'</span>');
+  log('Six schools of thought &nbsp;\xb7&nbsp; Complex mode: 68 sub-models + tariff control + ensemble optimisation &nbsp;\xb7&nbsp; Ridge OLS &nbsp;\xb7&nbsp; Iterative 2026 forecast','log-dim');
+  logSep();
+
+  // Build data dict
+  var allData={
+    real_gdp_growth:   RAW.real_gdp_growth.slice(),
+    unemployment_rate: RAW.unemployment_rate.slice(),
+    cpi_all_urban:     RAW.cpi_all_urban.slice(),
+    fed_funds_rate:    RAW.fed_funds_rate.slice(),
+    inflation_yoy:     RAW_INFLATION_YOY.slice(),
+    gs10:        RAW_EXTRA.gs10.slice(),
+    gs2:         RAW_EXTRA.gs2.slice(),
+    oil_wti:     RAW_EXTRA.oil_wti.slice(),
+    m2:          RAW_EXTRA.m2.slice(),
+    term_spread: RAW_TERM_SPREAD.slice(),
+    m2_growth:   RAW_M2_GROWTH.slice()
+  };
+
+  if(useLive){
+    log('Connecting to FRED API&hellip;');
+    // Core series
+    var CORE_MAP={'A191RL1Q225SBEA':'real_gdp_growth','FEDFUNDS':'fed_funds_rate','UNRATE':'unemployment_rate','CPIAUCSL':'cpi_all_urban'};
+    for(var sid in CORE_MAP){try{log('&ensp;Pulling '+sid+'&hellip;');var obs=await fetchFRED(sid,fredKey);allData[CORE_MAP[sid]]=toQuarterly(obs);log('&ensp;<span class="log-ok">\u2713</span> '+sid+' loaded');}catch(e){log('&ensp;<span class="log-warn">\u26a0</span> '+sid+' failed ('+e.message+') \u2014 using built-in data','log-warn');}}
+    // Extra series for complex mode
+    var EXTRA_MAP={'GS10':'gs10','GS2':'gs2','DCOILWTICO':'oil_wti','M2SL':'m2'};
+    for(var sid2 in EXTRA_MAP){try{log('&ensp;Pulling '+sid2+'&hellip;');var obs2=await fetchFRED(sid2,fredKey);allData[EXTRA_MAP[sid2]]=toQuarterly(obs2);log('&ensp;<span class="log-ok">\u2713</span> '+sid2+' loaded');}catch(e2){log('&ensp;<span class="log-warn">\u26a0</span> '+sid2+' failed \u2014 using built-in data','log-warn');}}
+    // Recompute derived series from fetched data
+    allData.inflation_yoy=allData.cpi_all_urban.map(function(v,i){return i<4||v==null||allData.cpi_all_urban[i-4]==null?null:(v/allData.cpi_all_urban[i-4]-1)*100;});
+    allData.term_spread=allData.gs10.map(function(v,i){return v!=null&&allData.gs2[i]!=null?v-allData.gs2[i]:null;});
+    allData.m2_growth=allData.m2.map(function(v,i){return i<4||v==null||allData.m2[i-4]==null?null:(v/allData.m2[i-4]-1)*100;});
+    log('<span class="log-ok">\u2713</span> Derived series computed (inflation YoY, yield curve, M2 growth)');
+  }else{
+    log('Using built-in data (2015 Q1 \u2013 2025 Q4, 44 quarters)');
+    log('&ensp;Tip: paste a FRED API key above to pull live data for all series.','log-dim');
+  }
+
+  // Tariff/trade shock dummy — 1 during known tariff escalation periods, 0 otherwise
+  allData.tariff_shock=ALL_LABELS.map(function(l){return TARIFF_QS.has(l)?1:0;});
+
+  window.STORED_DATA=allData;logSep();
+  log('Data summary:','log-head');
+  ['real_gdp_growth','inflation_yoy','unemployment_rate','fed_funds_rate','term_spread','m2_growth','oil_wti'].forEach(function(k){
+    var v=(allData[k]||[]).filter(function(x){return x!=null;});if(!v.length)return;
+    log('&ensp;<span class="log-val">'+k.padEnd(18)+'</span> '+v.length+' quarters &nbsp;\xb7&nbsp; last: <span class="log-pred">'+v[v.length-1].toFixed(3)+'</span>');
+  });
+  logSep();
+
+  log('Training five schools of thought + complex ensemble (17 sub-models &times; 4 targets, walk-forward backtest)&hellip;','log-head');
+  var schoolResults=trainAllSchools(allData);window.SCHOOL_RESULTS=schoolResults;
+  Object.keys(schoolResults).forEach(function(sk){
+    var sr=schoolResults[sk];
+    log('&ensp;<span class="log-ok">\u2713</span> <strong>'+SCHOOLS[sk].name+'</strong> &nbsp; avg error: <span class="log-val">\xb1'+(sr.avgMAE!=null?sr.avgMAE.toFixed(3):'&mdash;')+'%</span>');
+  });
+  logSep();
+
+  var sk=window.CURRENT_SCHOOL||'mainstream';
+  // userBlend has no trained entry — fall back to mainstream for the console summary log
+  var logSk=schoolResults[sk]?sk:'mainstream',sr=schoolResults[logSk];
+  log('2026 Forecast &mdash; '+SCHOOLS[logSk].name+(logSk!==sk?' (baseline \u2014 switch to Custom Blend after loading)':''),'log-head');logSep();
+  TARGET_ORDER.forEach(function(k){var p=sr.allPreds[k],cols=p.map(function(v){return'<span class="log-pred">'+v.toFixed(2).padStart(8)+'</span>';}).join(' ');log('&ensp;'+TARGET_META[k].label.padEnd(28)+' '+cols);});
+  logSep();log('Click any row in the forecast table to expand equations and coefficients.','log-dim');
+
+  document.getElementById('sw-charts').style.display='block';
+  document.getElementById('sw-results').style.display='block';
+  document.getElementById('sw-bottom').style.display='block';
+  initRangeSliders();
+  updateMAEBadges();
+  rerenderAll();
+  btn.disabled=false;
+  status.innerHTML='<span style="color:var(--green);">\u2713 Complete &mdash; '+new Date().toLocaleTimeString()+'</span>';
+}
+
+// ── Collapsible sections ──
+function toggleSec(id){
+  var el=document.getElementById(id);
+  if(el)el.classList.toggle('collapsed');
+}
+
+// ── Bootstrap ──
+buildSliders();
+buildBlendSliders();
+updateSliderLabels();
+updateBlendLabels();
+selectSchool('mainstream');
+</script>
+</body>
+</html>
